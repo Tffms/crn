@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+    <definition name="base.definition"
+        template="/WEB-INF/jsp/tileslayout.jsp">
+        <put-attribute name="title" value="Galaxy Space" />
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+    </definition>
+ 	
+    <definition name="welcome" extends="base.definition">
+        <put-attribute name="body" value="/WEB-INF/jsp/welcome.jsp" />
+    </definition>
+    
+    <definition name="unauth_welcome" extends="base.definition">
+    	<put-attribute name="body" value="/WEB-INF/jsp/welcome.jsp" />
+    </definition>
+    
+    <definition name="base.crn" template="/WEB-INF/jsp/crnTilesLayout.jsp">
+    	<put-attribute name="title" value="Clinical Research Networking" />
+        <put-attribute name="header" value="/WEB-INF/jsp/crnHeader.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/crnMenu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/crnFooter.jsp" />
+    </definition>
+    
+    <definition name="crn.welcome" extends="base.crn">
+    	<put-attribute name="body" value="/WEB-INF/jsp/crnWelcome.jsp" />
+    </definition>
+ 
+</tiles-definitions>
