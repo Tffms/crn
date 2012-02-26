@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
-<div data-dojo-type="dijit.DropDownMenu" id="navMenu">
+ <div id="loader"><div id="loaderInner">Loading...</div></div> 
+<div data-dojo-type="dijit.DropDownMenu" id="navMenu" >
 	
     <div data-dojo-type="dijit.MenuItem" class="item dijitMenuItemSelected">Home</div>
    
@@ -25,27 +25,5 @@
     <div data-dojo-type="dijit.MenuItem" class="item">Contact us</div>
 </div>
 
-<style>
-
-#navMenu{
-	margin: 20px auto;
-}
-
-.item{
-	width: 120px;
-	height: 40px;
-	font-size: 25px;
-	font-family:Helvetica, Arial, sans-serif;
-    font-weight:100;
-}
-.claro .dijitMenuItem{
-	color: #595959;
-}
-.claro .dijitMenu{
-	border: none;
-}
-
-
-</style>
 
 

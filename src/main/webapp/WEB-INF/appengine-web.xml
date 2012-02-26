@@ -8,10 +8,11 @@
 		<include path="/google_box.png" />
 		<include path="/logo-google.png" />
 		<include path="/static/images/clinical_bg.jpg"></include>
-		<include path="/static/images/crn_logo.png"> </include>
-		
+		<include path="/static/images/crn_logo.png"> </include>		
 		<include path="/static/images/showcase1.png"></include>
+		<include path="/static/css/crnstyles.css"></include>
 	</static-files>
+	
 	<sessions-enabled>true</sessions-enabled>
 
 </appengine-web-app>
