@@ -19,6 +19,25 @@ require(["dojo/ready", "dojo/parser", "dijit/registry", "dijit/Dialog"], functio
 		});
     });
 });
+
+function refreshMain(paneUrl){
+	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/domReady!"],
+			function(xhr, on, dom) {
+					xhr.get({
+						url: paneUrl,
+						load: function(newContent) {
+							dom.byId("bottom_div").innerHTML = newContent;
+						},
+						error: function() {
+							alert("error occured please try again later.. "); 
+						},
+						preventCache: true
+					});
+				
+			});
+}
+
+
 </script>
 <script>
 		require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator",

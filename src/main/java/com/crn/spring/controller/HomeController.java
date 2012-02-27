@@ -13,5 +13,15 @@ public class HomeController {
 		
 		return new ModelAndView("crn.welcome");
 	}
+	
+	@RequestMapping("homePane.htm")
+	public ModelAndView displayHomePane(){
+		return new ModelAndView("crnWelcome");
+	}
+	
+	@RequestMapping("whyUsPane.htm")
+	public ModelAndView displayWhyUs(){
+		return new ModelAndView("crnWhyUs"); 
+	}
 
 }

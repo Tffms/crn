@@ -180,4 +180,25 @@ a img {
 		text-align: center;
 	  }
 
-p { font:verdana; font-size:12px; text-align: left; line-height:20px; padding:8px; letter-spacing:1px; }
+p, li {
+	padding: 8px;
+	font: 12px Arial, Helvetica, sans-serif;
+	line-height:20px; 
+	letter-spacing:1px; 
+	color: #595959;
+	text-align: left;
+}
+
+h3{
+	font: 16px Arial, Helvetica, sans-serif;
+	color: #595959;
+	font-weight: bold;
+}
+
+.body_content{	
+	margin: 20px;		
+}
+
+.footer_p{
+	text-align: center;
+}

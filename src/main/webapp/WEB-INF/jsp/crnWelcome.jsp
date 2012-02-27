@@ -51,17 +51,6 @@
 		through training, mentoring, and coaching.</p>
 
 </div>
-<style type="text/css">
-.body_content{
-	margin: 20px;
-	font: 14px Arial, Helvetica, sans-serif;
-	color: #595959;
-}
-
-.body_content p{
-	line-height: 24px;
-}
-</style>
 <script>
 	function googlePopup() {
 		var popupURL = "/display/googleLogin.htm";
@@ -71,4 +60,10 @@
 						"Popup",
 						"toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=630,height=450");
 	}
+</script>
+
+<script>
+require(["dojo/dom-class"], function(domClass){
+    domClass.add("whyus_item", "dijitMenuItemSelected");
+});
 </script>
