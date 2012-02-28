@@ -9,8 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 	
 	@RequestMapping("index.htm") 
-	public ModelAndView displayHome(){
-		
+	public ModelAndView displayHome(){		
 		return new ModelAndView("crn.welcome");
 	}
 	
@@ -22,6 +21,11 @@ public class HomeController {
 	@RequestMapping("whyUsPane.htm")
 	public ModelAndView displayWhyUs(){
 		return new ModelAndView("crnWhyUs"); 
+	}
+	
+	@RequestMapping("crnFaqs.htm")
+	public ModelAndView displayFaqs(){
+		return new ModelAndView("crnFaqs"); 
 	}
 
 }

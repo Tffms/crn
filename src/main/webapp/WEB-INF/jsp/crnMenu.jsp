@@ -23,7 +23,7 @@
 
 	<div data-dojo-type="dijit.MenuItem" class="item">R&D Services</div>
 
-	<div data-dojo-type="dijit.MenuItem" class="item">FAQs</div>
+	<div data-dojo-type="dijit.MenuItem" class="item" onclick="javascript:refreshMain('/public/home/crnFaqs.htm')">FAQs</div>
 
 	<div data-dojo-type="dijit.MenuItem" class="item">Contact us</div>
 </div>

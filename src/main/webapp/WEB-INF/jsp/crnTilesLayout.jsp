@@ -8,7 +8,7 @@
 <title><tiles:insertAttribute name="title" /></title>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dijit/themes/claro/claro.css">
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
-			data-dojo-config="isDebug: true, async: true, parseOnLoad: true">
+			data-dojo-config="isDebug: true, async: true">
 		</script>
 <link rel="stylesheet" href="/static/css/crnstyles.css">
 <script>
@@ -21,17 +21,34 @@ require(["dojo/ready", "dojo/parser", "dijit/registry", "dijit/Dialog"], functio
 });
 
 function refreshMain(paneUrl){
-	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/domReady!"],
-			function(xhr, on, dom) {
+	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/parser","dojo/query", "dojo/NodeList-traverse"],
+			function(xhr, on, dom, parser, query) {
 					xhr.get({
 						url: paneUrl,
 						load: function(newContent) {
 							dom.byId("bottom_div").innerHTML = newContent;
-						},
+							dojo.parser.parse();
+							query(".show").onclick(function(e){
+									var content = query(e.currentTarget).next()[0];
+									require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/domReady!"], function(Toggler, fx, domStyle) {
+										var t = new Toggler({
+											node : content,
+											showDuration: 500,
+											hideDuration : 200,
+											showFunc: fx.wipeIn,
+											hideFunc: fx.wipeOut
+										});
+										if(domStyle.get(content, "display") =='none'){
+											t.show();
+										} else{
+											t.hide();
+										}
+									});
+								})
+							},
 						error: function() {
 							alert("error occured please try again later.. "); 
-						},
-						preventCache: true
+						}
 					});
 				
 			});
@@ -44,7 +61,9 @@ function refreshMain(paneUrl){
 				"dijit/PopupMenuItem", "dijit/MenuBar",
 				"dijit/form/ToggleButton", "dijit/form/ComboButton",
 				"dijit/Menu", "dijit/MenuItem", "dijit/form/DropDownButton",
-				"dijit/TooltipDialog" ]);
+				"dijit/TooltipDialog" ], function(parser){
+			parser.parse("left_body_div");
+		});
 		require([ "dojo/dom", "dojo/fx","dojox/widget/AutoRotator", "dojox/widget/rotator/Slide" , "dojo/domReady!" ], function(dom, fx) {
 			 new dojox.widget.AutoRotator({
 				            transition: "dojox.widget.rotator.slideLeft",
@@ -86,6 +105,7 @@ function refreshMain(paneUrl){
 		<hr class="maindiv_hr">
 		<div id="footer_div">
 			<tiles:insertAttribute name="footer" />
+			
 		</div>
 	</div>
 	
