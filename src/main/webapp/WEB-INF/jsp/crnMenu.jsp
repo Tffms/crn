@@ -12,10 +12,10 @@
 		<div data-dojo-type="dijit.DropDownMenu" id="submenu2">
 			<div data-dojo-type="dijit.MenuItem" data-dojo-props=""
 				id="consulting_link">Consulting</div>
-			<div data-dojo-type="dijit.MenuItem" >Outsourcing</div>
-			<div data-dojo-type="dijit.MenuItem" data-dojo-props="">Support</div>
-			<div data-dojo-type="dijit.MenuItem" data-dojo-props="">Training</div>
-			<div data-dojo-type="dijit.MenuItem" data-dojo-props="">Others</div> 
+			<div data-dojo-type="dijit.MenuItem"   onclick="javascript:refreshMain('/public/home/crnOutsourcing.htm')" >Outsourcing</div>
+			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/public/home/crnSupport.htm')">Support</div>
+			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/public/home/crnTraining.htm')">Training</div>
+			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/public/home/crnCILocationServices.htm')">CI Location Services</div> 
 		</div>
 	</div>
 
@@ -25,7 +25,7 @@
 
 	<div data-dojo-type="dijit.MenuItem" class="item" onclick="javascript:refreshMain('/public/home/crnFaqs.htm')">FAQs</div>
 
-	<div data-dojo-type="dijit.MenuItem" class="item">Contact us</div>
+	<div data-dojo-type="dijit.MenuItem" class="item"  onclick="javascript:refreshMain('/public/home/crnAboutUs.htm')" >About us</div>
 </div>
 
 

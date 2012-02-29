@@ -27,5 +27,36 @@ public class HomeController {
 	public ModelAndView displayFaqs(){
 		return new ModelAndView("crnFaqs"); 
 	}
+	
+	@RequestMapping("crnAboutUs.htm")
+	public ModelAndView displayAboutUs(){
+		return new ModelAndView("crnAboutUs"); 
+	}
+	
+	@RequestMapping("crnOutsourcing.htm")
+	public ModelAndView displayOutsourcing(){
+		return new ModelAndView("crnOutsourcing"); 
+	}
+	
+	@RequestMapping("crnTraining.htm")
+	public ModelAndView displayTraining(){
+		return new ModelAndView("crntraining"); 
+	}
+	
+	@RequestMapping("crnSupport.htm")
+	public ModelAndView displaySupportServivce(){
+		return new ModelAndView("supportService"); 
+	}
+	
 
+	@RequestMapping("crnStaffing.htm")
+	public ModelAndView displayStaffing(){
+		return new ModelAndView("crnStaffing"); 
+	}
+	
+	@RequestMapping("crnCILocationServices.htm")
+	public ModelAndView displayCILocation(){
+		return new ModelAndView("ciLocationServices"); 
+	}
+	
 }
