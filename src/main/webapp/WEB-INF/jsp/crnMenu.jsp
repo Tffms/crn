@@ -10,11 +10,11 @@
 	<div data-dojo-type="dijit.PopupMenuItem" class="item">
 		<span>Services</span>
 		<div data-dojo-type="dijit.DropDownMenu" id="submenu2">
-			<div data-dojo-type="dijit.MenuItem" data-dojo-props=""
-				id="consulting_link">Consulting</div>
+			<div data-dojo-type="dijit.MenuItem" data-dojo-props=""  id="consulting_link">Consulting</div>
 			<div data-dojo-type="dijit.MenuItem"   onclick="javascript:refreshMain('/public/home/crnOutsourcing.htm')" >Outsourcing</div>
 			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/public/home/crnSupport.htm')">Support</div>
 			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/public/home/crnTraining.htm')">Training</div>
+			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/form/register/viewStudySiteForm.htm')">Register Study Site</div>
 			<div data-dojo-type="dijit.MenuItem" onclick="javascript:refreshMain('/public/home/crnCILocationServices.htm')">CI Location Services</div> 
 		</div>
 	</div>
