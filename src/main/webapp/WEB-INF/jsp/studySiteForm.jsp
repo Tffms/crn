@@ -8,18 +8,81 @@
 	<form:form commandName="studySite">
 		 <table>
           <tr>
-              <td>First Name:</td>
+              <td>Full Site Name:</td>
               <td>
-              	<form:input path="firstName" 
-				    data-dojo-type="dijit.form.ValidationTextBox"
-				    data-dojo-props="validator:dojox.validate.isEmailAddress,
-				        invalidMessage:'This is not a valid email!'"
-				    />
+              <form:input path="siteName"  type="text" required="true" placeholder="Site Name" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter Site Name" />
+              </td>
+          </tr>
+
+          <tr>
+              <td>Address Line 1:</td>
+              <td>
+              	<form:input path="addressLine1"  type="text" required="true" placeholder="Address Line 1" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter Address" />
               </td>
           </tr>
           <tr>
-              <td>Last Name:</td>
-              <td><form:input path="lastName" /></td>
+              <td>Address Line 2:</td>
+              <td>
+              	<form:input path="addressLine2"  type="text" required="true" placeholder="Address Line 2" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter Address" />
+              </td>
+          </tr>
+          <tr>
+              <td>City:</td>
+              <td>
+              	<form:input path="city"  type="text" required="true" placeholder="City" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please enter City" />
+              </td>
+          </tr>
+          <tr>
+              <td>State:</td>
+              <td>
+              	<form:input path="state"  type="text" required="true" placeholder="State" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter state" />
+              </td>
+          </tr>
+          <tr>
+              <td>Zip:</td>
+              <td>
+              	<form:input path="zip"  type="text" required="true" placeholder="Zip" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter zip code" />
+              </td>
+          </tr>
+          <tr>
+              <td>Contact Phone :</td>
+              <td>
+              	<form:input path="phone"  type="text" required="true" placeholder="Contact Phone #" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter contact Phone number" />
+              </td>
+          </tr>
+          <tr>
+              <td>Fax:</td>
+              <td>
+              	<form:input path="fax"  type="text" required="true" placeholder="Fax Number" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your fax number" />
+              </td>
+          </tr>
+          <tr>
+              <td>Email Address:</td>
+              <td>
+              	<form:input path="email"  type="text" required="true" placeholder="Email" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+              </td>
+          </tr>
+          <tr>
+              <td>Website:</td>
+              <td>
+              	<form:input path="website"  type="text" required="true" placeholder="Website Address" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your Website Address" />
+              </td>
+          </tr>
+          
+          <tr>
+              <td>Facility Type:</td>
+		              <td>Research Center: <form:radiobutton path="facilityType.typeId" value="0"/> <br/>
+		         University : <form:radiobutton path="facilityType.typeId" value="1"/> </td>
           </tr>
           <tr>
               <td colspan="2">
