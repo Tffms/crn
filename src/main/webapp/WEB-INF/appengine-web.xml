@@ -11,6 +11,8 @@
 		<include path="/static/images/crn_logo.png"> </include>		
 		<include path="/static/images/showcase1.png"></include>
 		<include path="/static/css/crnstyles.css"></include>
+		<include path="/static/images/bg_top.png"></include>
+		<include path="/static/images/home_pic1.png"></include>
 	</static-files>
 	
 	<sessions-enabled>true</sessions-enabled>

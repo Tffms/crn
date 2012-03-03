@@ -32,5 +32,9 @@
     <definition name="crn.welcome" extends="base.crn">
     	<put-attribute name="body" value="/WEB-INF/jsp/crnWelcome.jsp" />
     </definition>
+    
+    <definition name="revised.crn" template="/WEB-INF/jsp/revisedTilesLayout.jsp">
+    	<put-attribute name="title" value="Clinical Research Networking" />
+    </definition>
  
 </tiles-definitions>

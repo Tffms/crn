@@ -28,14 +28,8 @@ function refreshMain(paneUrl){
 						url: paneUrl,
 						load: function(newContent) {
 							dom.byId("bottom_div").innerHTML = newContent;
-							require(["dojo/parser", 
-										/* dojox/ validate resources */
-										"dojox/validate/us", "dojox/validate/web",
-										/* basic dijit classes */
-										"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
-										/* basic dojox classes */
-										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect", "dojo/domReady!"]);
-							dojo.parser.parse();
+							dojo.parser.parse("bottom_div");	
+							// use dijit.TitlePane here... 
 							query(".show").onclick(function(e){
 								var content = query(e.currentTarget).next()[0];
 								require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/domReady!"], function(Toggler, fx, domStyle) {
@@ -53,6 +47,13 @@ function refreshMain(paneUrl){
 									}
 								});
 							});
+							require(["dojo/parser", 
+										/* dojox/ validate resources */
+										"dojox/validate/us", "dojox/validate/web",
+										/* basic dijit classes */
+										"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+										/* basic dojox classes */
+										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"]);
 						 },
 						error: function() {
 							alert("error occured please try again later.. "); 

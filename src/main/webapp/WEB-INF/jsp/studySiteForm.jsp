@@ -81,8 +81,8 @@
           
           <tr>
               <td>Facility Type:</td>
-		              <td>Research Center: <form:radiobutton path="facilityType.typeId" value="0"/> <br/>
-		         University : <form:radiobutton path="facilityType.typeId" value="1"/> </td>
+		              <td>Research Center: <form:radiobutton path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br/>
+		         University : <form:radiobutton path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" /> </td>
           </tr>
           <tr>
               <td colspan="2">

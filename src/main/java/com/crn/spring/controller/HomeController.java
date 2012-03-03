@@ -59,4 +59,9 @@ public class HomeController {
 		return new ModelAndView("ciLocationServices"); 
 	}
 	
+	@RequestMapping("revisedHome.htm") 
+	public ModelAndView revisedView(){
+		return new ModelAndView("revised.crn");
+	}
+	
 }
