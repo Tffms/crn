@@ -31,44 +31,107 @@ function clickSubmenu(target){
 				query(".submenu_item").removeClass("menu_selected");
 		    	domClass.add(target, "menu_selected");
 		    	imagepaneurl =  domAttr.get(target, "img-url");
-				xhr.get({
-					url: imagepaneurl,
-					load: function(newContent) {
-						require(["dojo/_base/fx"], function(fx){
-				    		  fx.animateProperty({	
-				    		   node:"submenublock", duration: 1000,
-				    		   properties: {
-				    		     height : 300
-				    		   },
-				    		   onEnd: function(){
-				    			   		dom.byId("header_image_block").innerHTML = newContent;
-										dojo.parser.parse("header_image_block");
-				    			 	}
-				    		 }).play();
-				    	});						
-					},
-					error: function() {
-						require(["dojo/_base/fx"], function(fx){
-				    		  fx.animateProperty({	
-				    		   node:"submenublock", duration: 1000,
-				    		   properties: {
-				    		     height : 100
-				    		   }
-				    		 }).play();
-				    	});
-						dom.byId("header_image_block").innerHTML = "";
-					}
-				});
+		    	if(imagepaneurl){
+		    		xhr.get({
+						url: imagepaneurl,
+						load: function(newContent) {
+							require(["dojo/_base/fx"], function(fx){
+					    		  fx.animateProperty({	
+					    		   node:"submenublock", duration: 1000,
+					    		   properties: {
+					    		     height : 300
+					    		   },
+					    		   onEnd: function(){
+					    			   		dom.byId("header_image_block").innerHTML = newContent;
+											dojo.parser.parse("header_image_block");										
+					    			 	}
+					    		 }).play();
+					    	});						
+						},
+						error: function() {							
+							dom.byId("header_image_block").innerHTML = "";
+						}
+					});
+		    	} else {
+		    		require(["dojo/_base/fx"], function(fx){
+			    		  fx.animateProperty({	
+			    		   node:"submenublock", duration: 1000,
+			    		   properties: {
+			    		     height : 100
+			    		   }
+			    		 }).play();
+			    	});
+		    		dom.byId("header_image_block").innerHTML = "";
+		    	}			
 	});		
 }
 
 function loadContentPane(target){
-	
+	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr",  "dojo/NodeList-traverse", "dojo/domReady!"],
+			function(xhr, on, dom, domClass, parser, query, domAttr) {
+				contenturl =  domAttr.get(target, "content-url");
+				if(contenturl){
+					destroyWidgets();
+					xhr.get({
+						url: contenturl,
+						load: function(newContent) {													
+							dom.byId("contentpane").innerHTML = newContent;
+							require(["dojo/parser", 
+										/* dojox/ validate resources */
+										"dojox/validate/us", "dojox/validate/web",
+										/* basic dijit classes */
+										"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+										/* basic dojox classes */
+										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], function(parser){
+								parser.parse("studyCenterForm"); 
+								irbOption();
+							});
+						},
+						error: function() {
+							dom.byId("contentpane").innerHTML = "";
+						}
+					});
+				} else{
+					dom.byId("contentpane").innerHTML = "";
+				}				
+	});
+}
+
+function destroyWidgets(){
+	require(["dijit/registry", "dojo/_base/array"], function(registry, array){
+		array.forEach(registry.toArray(), function(widget, i){
+			console.log(widget.declaredClass);
+			widget.destroy();
+		});
+		console.log(registry.length);
+	});
+}
+
+function irbOption(){
+	require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
+			function(on, dom, domClass, parser, query, domAttr) {
+				query(".irb input").on("click", function(e){
+			    	var submenu = domAttr.get(e.currentTarget, "value");		    	
+			    	require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/dom-attr", "dojo/dom", "dojo/dom-class", "dojo/query", "dojo/NodeList-dom", "dojo/domReady!"], 
+			        		function(Toggler, fx, domStyle, domAttr, dom, domClass, query) {
+					    		var t = new Toggler({
+									node : "irbName",
+									showFunc: fx.wipeIn,
+									hideFunc: fx.wipeOut
+								});
+					    		if(submenu == 1){
+					    			t.hide();
+					    		} else t.show();
+					    		
+			    	});
+			    }); 
+	});
 }
 
 
 require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
 		function(on, dom, domClass, parser, query, domAttr) {
+			
 		    query(".menu_item").on("click", function(e){		        
 		        var submenu = domAttr.get(e.currentTarget, "subnav-class");
 		        var menuId = domAttr.get(e.currentTarget, "id");	
@@ -101,8 +164,21 @@ require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "d
 		    
 		    query(".submenu_item").on("click", function(e){
 		    	clickSubmenu(e.currentTarget);
+		    	loadContentPane(e.currentTarget);
 		    });
+		    
+		    query("#registry_length").on("click", function(e){
+		    	require(["dijit/registry", "dojo/_base/array"], function(registry, array){
+		    		array.forEach(registry.toArray(), function(widget, i){
+		    			console.log(widget.declaredClass);
+		    			//widget.destroy();
+		    		});
+		    		console.log(registry.length);
+		    	});
+		    });		    
 	});
+
+
 
 require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/MenuBarItem",
 			"dijit/PopupMenuItem", "dijit/MenuBar","dijit/PopupMenuBarItem",
@@ -114,7 +190,7 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 	
 </script>
 </head>
-<body>
+<body class="claro">
 <!-- <div id="loader">
 	<div id="loaderInner">Loading...</div>
 </div> -->
@@ -144,7 +220,7 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 					<a href="#">Clinical Train</a></div>
 				<div  class="submenu_item image_nav">
 					<a href="#">Patient Referrals</a></div>
-				<div  class="submenu_item no_image_nav">
+				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
 					<a href="#">Register Study Center</a></div>
 			</div>
 			<div id="main_nav_id_1">
@@ -166,9 +242,13 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 					<a href="#">Home</a></div>
 			 </div>
 		</div>
+		
 		<div id="header_image_block">
 			
 		</div>
+	</div>
+	<div id="contentpane" >
+	
 	</div>
 </body>
 </html>

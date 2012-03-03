@@ -5,8 +5,8 @@
 <c:set value="${(userSession ne null) ? userSession.userInfo : null}" var="userInfo"></c:set>
 
 <div class="body_content" >
-	<form:form commandName="studySite">
-		 <table>
+	<form:form  dojoType="dijit.form.Form" commandName="studySite" id="studyCenterForm" data-dojo-id="studyCenterForm">  
+		 <table style="float: left; overflow: hidden;">
           <tr>
               <td>Full Site Name:</td>
               <td>
@@ -50,7 +50,20 @@
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter zip code" />
               </td>
           </tr>
-          <tr>
+          <tr >
+          	<td>Site IRB :</td>
+          	<td>
+          		Central: <form:radiobutton class="irb" path="irbType.typeId" value="1" dojoType="dijit.form.RadioButton" /> <br/>
+		         Local : <form:radiobutton class="irb" path="irbType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br />
+		         <span id="irbName" style="display: none;">
+		         <form:input path="irbType.typeName"    type="text" required="true" placeholder="Contact Phone #" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter contact Phone number" /> </span>
+          	</td>
+          </tr>
+          
+      </table>
+       <table style="float: left; overflow: hidden;">
+      		<tr>
               <td>Contact Phone :</td>
               <td>
               	<form:input path="phone"  type="text" required="true" placeholder="Contact Phone #" 
@@ -84,11 +97,103 @@
 		              <td>Research Center: <form:radiobutton path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br/>
 		         University : <form:radiobutton path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" /> </td>
           </tr>
-          <tr>
-              <td colspan="2">
-                  <input type="submit" value="Save Changes" />
-              </td>
-          </tr>
+     
+      
+      </table>
+      
+      <table>
+      	<tr>
+      		<td colspan="4">Investigators Associated</td>
+      	</tr>
+      	<tr>
+      		<td>
+      			Name
+      		</td>
+      		<td>
+      			PI/ Sub-I
+      		</td>
+      		<td>
+      			Experience
+      		</td>
+      		<td>
+      			Area/Speciality
+      		</td>
+      	</tr>
+      	<tr>
+      		<td>
+      			<form:input path="investigators[0].name"  type="text" required="true" placeholder="Investigator Name" 
+					dojoType="dijit.form.ValidationTextBox" row-count="0" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<form:input path="investigators[0].subi"  type="text" required="true" placeholder="Type" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<form:input path="investigators[0].experience"  type="text" required="true" placeholder="Experience" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<form:input path="investigators[0].area"  type="text" required="true" placeholder="Speciality" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		</td>
+      	</tr>
+      	
+      	<tr>
+      		<td>
+      			<form:input path="investigators[1].name"  type="text" required="true" placeholder="Investigator Name" 
+					dojoType="dijit.form.ValidationTextBox" row-count="1" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<form:input path="investigators[1].subi"  type="text" required="true" placeholder="Type" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<form:input path="investigators[1].experience"  type="text" required="true" placeholder="Experience" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<form:input path="investigators[1].area"  type="text" required="true" placeholder="Speciality" 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		</td>
+      	</tr>
+      	
+      </table>
+      
+      <table style="float: left; overflow: hidden;">
+      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="0">   
+      		<tr>
+      			<td>
+      				<form:checkbox dojoType="dijit.form.CheckBox"  path="specialisedAreas" value="${area}"/>
+      			</td>
+      			<td>
+      				<c:out value="${area}"></c:out>
+      			</td>
+      		</tr>
+      	</c:forEach>
+      </table>
+      
+      <table style="float: left; overflow: hidden;">
+      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="1">   
+      		<tr>
+      			<td>
+      				<form:checkbox dojoType="dijit.form.CheckBox" path="specialisedAreas" value="${area}"/>
+      			</td>
+      			<td>
+      				<c:out value="${area}"></c:out>
+      			</td>
+      		</tr>
+      	</c:forEach>
+      	<table style="float: left; overflow: hidden;">
+      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="2">   
+      		<tr>
+      			<td>
+      				<form:checkbox dojoType="dijit.form.CheckBox" path="specialisedAreas" value="${area}"/>
+      			</td>
+      			<td>
+      				<c:out value="${area}"></c:out>
+      			</td>
+      		</tr>
+      	</c:forEach>
       </table>
 	</form:form>
 </div>

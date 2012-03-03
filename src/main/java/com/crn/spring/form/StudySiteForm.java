@@ -1,8 +1,11 @@
 package com.crn.spring.form;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.crn.type.FacilityType;
+import com.crn.type.Investigator;
+import com.crn.type.IrbType;
 
 public class StudySiteForm implements Serializable{
 	
@@ -21,6 +24,9 @@ public class StudySiteForm implements Serializable{
 	private String email;
 	private String website;
 	private FacilityType facilityType;
+	private IrbType irbType;
+	private List<Investigator> investigators;
+	private List<String> specialisedAreas;
 
 	public String getAddressLine1() {
 		return addressLine1;
@@ -87,6 +93,24 @@ public class StudySiteForm implements Serializable{
 	}
 	public void setFacilityType(FacilityType facilityType) {
 		this.facilityType = facilityType;
+	}
+	public List<Investigator> getInvestigators() {
+		return investigators;
+	}
+	public void setInvestigators(List<Investigator> investigators) {
+		this.investigators = investigators;
+	}
+	public IrbType getIrbType() {
+		return irbType;
+	}
+	public void setIrbType(IrbType irbType) {
+		this.irbType = irbType;
+	}
+	public List<String> getSpecialisedAreas() {
+		return specialisedAreas;
+	}
+	public void setSpecialisedAreas(List<String> specialisedAreas) {
+		this.specialisedAreas = specialisedAreas;
 	}
 
 }
