@@ -77,15 +77,14 @@ function loadContentPane(target){
 						load: function(newContent) {													
 							dom.byId("contentpane").innerHTML = newContent;
 							require(["dojo/parser", 
-										/* dojox/ validate resources */
 										"dojox/validate/us", "dojox/validate/web",
-										/* basic dijit classes */
 										"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
-										/* basic dojox classes */
-										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], function(parser){
-								parser.parse("studyCenterForm"); 
-								irbOption();
-							});
+										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+										function(parser){
+											parser.parse("studyCenterForm"); 
+											irbOption();
+											addIARow();
+										});
 						},
 						error: function() {
 							dom.byId("contentpane").innerHTML = "";
@@ -128,6 +127,49 @@ function irbOption(){
 	});
 }
 
+function addIARow(){
+	require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
+			function(on, dom, domClass, parser, query, domAttr) {
+				query("#addIARow").on("click", function(e){
+					require(["dojo/_base/lang", "dojo/query", "dojo/dom-construct",  "dojo/dom", "dojo/dom-attr", "dojo/_base/array",  "dojo/dom-style", "dojo/NodeList-traverse"], 
+							function(lang, query, ctr, dom, attr, array, style){
+							  var currentCount = attr.get(query("#currentRowCount")[0], "value");
+							  console.log("current row count " + currentCount);
+							  
+							  var n = query("#temp_clone")[0];
+							  console.log("trying to clone element " + n); 
+							  var newnode = lang.clone(n);
+							  attr.set(newnode, "id", "newNode" + currentCount);
+							  style.set(newnode, "display", "");
+							  ctr.place(newnode, n, "before");			
+							  							  
+							  
+							  array.forEach(query("#newNode" + currentCount).query("input"), function(e, i){
+								  console.log("input element "  + e);
+								  attr.set(e, "dojoType", "dijit.form.ValidationTextBox");
+								  var nameAttr = attr.get(e, "name");
+								  attr.set(e, "name", nameAttr.replace("newIndex", parseInt(currentCount) + 1))
+								  attr.set(e, "id", nameAttr.replace("newIndex", parseInt(currentCount) + 1))
+							  });
+							  
+							  console.log("setting row count");
+							  attr.set(query("#currentRowCount")[0], "value", parseInt(currentCount) + 1);
+							  
+							  require(["dojo/parser", 
+										/* dojox/ validate resources */
+										"dojox/validate/us", "dojox/validate/web",
+										/* basic dijit classes */
+										"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+										/* basic dojox classes */
+										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], function(parser){
+									parser.parse(dojo.byId("newNode")); 
+								});
+							  return false;
+							});
+				});
+	});
+}
+
 
 require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
 		function(on, dom, domClass, parser, query, domAttr) {
@@ -158,13 +200,15 @@ require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "d
 					        	t.show();
 					        	currentNav = submenu;
 				        	}			
-				        	clickSubmenu(query(dojo.byId(submenu)).query("div:first-child")[0]);
+				        	var submenutarget = query(dojo.byId(submenu)).query("div:first-child")[0]; 
+				        	clickSubmenu(submenutarget);
+				        	loadContentPane(submenutarget);
 		        		});
 		    });
 		    
 		    query(".submenu_item").on("click", function(e){
 		    	clickSubmenu(e.currentTarget);
-		    	loadContentPane(e.currentTarget);
+		    	loadContentPane(e.currentTarget);		    	
 		    });
 		    
 		    query("#registry_length").on("click", function(e){
@@ -198,16 +242,16 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 	</div>
 	<div id="menubar" >
 		<div  class="menu_item"	id="main_nav_1" subnav-class = "main_nav_id_1">
-			<a href="#">Home</a></div>
+			<a href="javascript:void(0)">Home</a></div>
 		<div class="menu_item" 	id="main_nav_2" subnav-class = "main_nav_id_2">
-			<a href="#">Sponsor Services</a></div>		
+			<a href="javascript:void(0)">Sponsor Services</a></div>		
 		<div class="menu_item" id="main_nav_3" subnav-class = "main_nav_id_3" >
-			<span><a href="#">Investigator Services</a></span>
+			<span><a href="javascript:void(0)">Investigator Services</a></span>
 		</div>
 		<div  class="menu_item" id="main_nav_4" subnav-class = "main_nav_id_4">
-			<a href="#">Outsourcing</a></div>
+			<a href="javascript:void(0)">Outsourcing</a></div>
 		<div  class="menu_item" id="main_nav_5" subnav-class = "main_nav_id_5">
-			<a href="#">Training</a></div>
+			<a href="javascript:void(0)">Training</a></div>
 	</div>
 	<!-- http://www.developer.nokia.com/Community/Wiki/Simple_Web_Runtime_Design_Patterns_Using_Dojo#4._Expand.2FCollapse 
 	use above link to collapse submenublock -->
@@ -215,31 +259,31 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 		<div id="submenubar" >
 			<div id="main_nav_id_3" style="display:none"> 
 				<div class="submenu_item image_nav" img-url="/imagepane/staffing.htm">
-					<a href="#">Staffing</a></div>
+					<a href="javascript:void(0)">Staffing</a></div>
 				<div class="submenu_item image_nav" >
-					<a href="#">Clinical Train</a></div>
+					<a href="javascript:void(0)">Clinical Train</a></div>
 				<div  class="submenu_item image_nav">
-					<a href="#">Patient Referrals</a></div>
+					<a href="javascript:void(0)">Patient Referrals</a></div>
 				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
-					<a href="#">Register Study Center</a></div>
+					<a href="javascript:void(0)">Register Study Center</a></div>
 			</div>
 			<div id="main_nav_id_1">
 				<div class="submenu_item image_nav" >
-					<a href="#">About us</a></div>
+					<a href="javascript:void(0)">About us</a></div>
 			</div>
 			<div id="main_nav_id_2" style="display:none">
 				<div class="submenu_item image_nav" >
-					<a href="#">Staffing</a></div>
+					<a href="javascript:void(0)">Staffing</a></div>
 				<div class="submenu_item image_nav" >
-					<a href="#">Call Center</a></div>		
+					<a href="javascript:void(0)">Call Center</a></div>		
 			</div>
 			<div id="main_nav_id_4" style="display:none">
 				<div class="submenu_item image_nav" >
-					<a href="#">Home</a></div>
+					<a href="javascript:void(0)">Home</a></div>
 			 </div>
 			<div id="main_nav_id_5" style="display:none">
 				<div class="submenu_item image_nav" >
-					<a href="#">Home</a></div>
+					<a href="javascript:void(0)">Home</a></div>
 			 </div>
 		</div>
 		

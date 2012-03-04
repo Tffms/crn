@@ -6,7 +6,15 @@
 
 <div class="body_content" >
 	<form:form  dojoType="dijit.form.Form" commandName="studySite" id="studyCenterForm" data-dojo-id="studyCenterForm">  
-		 <table style="float: left; overflow: hidden;">
+		 <table class="site_form_table" id="site_form_table1"  style="float: left; overflow: hidden;">
+		 <thead>
+		 	<tr>
+		 		<th colspan="2">
+		 			Contact Information
+		 		</th>
+		 	</tr>
+		 </thead>
+		 <tbody>
           <tr>
               <td>Full Site Name:</td>
               <td>
@@ -60,9 +68,15 @@
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter contact Phone number" /> </span>
           	</td>
           </tr>
-          
+        </tbody>
       </table>
-       <table style="float: left; overflow: hidden;">
+       <table class="site_form_table" style="float: left; overflow: hidden;">
+       	<thead>
+       		<tr>
+       			<th colspan="2"></th>
+       		</tr>
+       	</thead>
+       	<tbody>
       		<tr>
               <td>Contact Phone :</td>
               <td>
@@ -98,13 +112,16 @@
 		         University : <form:radiobutton path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" /> </td>
           </tr>
      
-      
+      	</tbody>
       </table>
       
-      <table>
-      	<tr>
-      		<td colspan="4">Investigators Associated</td>
-      	</tr>
+      <table class="site_form_table" id="iaTable">
+      	<thead>
+      		<tr>
+      			<th colspan="2">Investigators Associated</th>
+      		</tr>
+      	</thead>
+		<tbody>
       	<tr>
       		<td>
       			Name
@@ -119,17 +136,18 @@
       			Area/Speciality
       		</td>
       	</tr>
-      	<tr>
+      	
+      	<tr class="iaclass">
       		<td>
       			<form:input path="investigators[0].name"  type="text" required="true" placeholder="Investigator Name" 
 					dojoType="dijit.form.ValidationTextBox" row-count="0" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
-      			<form:input path="investigators[0].subi"  type="text" required="true" placeholder="Type" 
+      			<form:input class="textbox_small" path="investigators[0].subi" size="3"  type="text" required="true" placeholder="Type" 
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
-      			<form:input path="investigators[0].experience"  type="text" required="true" placeholder="Experience" 
+      			<form:input class="textbox_small" path="investigators[0].experience" size="3"  type="text" required="true" placeholder="Experience" 
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
@@ -138,17 +156,17 @@
       		</td>
       	</tr>
       	
-      	<tr>
+      	<tr class="iaclass">
       		<td>
       			<form:input path="investigators[1].name"  type="text" required="true" placeholder="Investigator Name" 
 					dojoType="dijit.form.ValidationTextBox" row-count="1" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
-      			<form:input path="investigators[1].subi"  type="text" required="true" placeholder="Type" 
+      			<form:input class="textbox_small" path="investigators[1].subi"  type="text" required="true" placeholder="Type" 
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
-      			<form:input path="investigators[1].experience"  type="text" required="true" placeholder="Experience" 
+      			<form:input class="textbox_small" path="investigators[1].experience"  type="text" required="true" placeholder="Experience" 
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
@@ -157,9 +175,32 @@
       		</td>
       	</tr>
       	
+      	<tr id="temp_clone" style="display: none;">
+      		<td>
+      			<input name="investigators[newIndex].name"  type="text" required="true" placeholder="Investigator Name" 
+					 row-count="0" missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<input class="textbox_small" name="investigators[newIndex].subi"  type="text" required="true" placeholder="Type" 
+					 missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<input class="textbox_small" name="investigators[newIndex].experience" type="text" required="true" placeholder="Experience" 
+					 missingMessage="Please Enter your email address" />
+      		</td>
+      		<td>
+      			<input name="investigators[newIndex].area"  type="text" required="true" placeholder="Speciality" 
+					missingMessage="Please Enter your email address" />
+      		</td>
+      	</tr>
+      	</tbody>
       </table>
-      
-      <table style="float: left; overflow: hidden;">
+      <div>
+      	<input type="hidden" value="1" id="currentRowCount">
+      	<a href="javascript:void(0)" id="addIARow" >Add More.. </a>
+      </div>
+      <div class="table_heading" style="margin-left: 5px; margin-top: 20px;">Area/Specialization</div>
+      <table class="site_form_table" style="float: left; overflow: hidden;">
       	<c:forEach var="area" items="${specialisedItems}" step="3" begin="0">   
       		<tr>
       			<td>
@@ -172,7 +213,7 @@
       	</c:forEach>
       </table>
       
-      <table style="float: left; overflow: hidden;">
+      <table  class="site_form_table" style="float: left; overflow: hidden;">
       	<c:forEach var="area" items="${specialisedItems}" step="3" begin="1">   
       		<tr>
       			<td>
@@ -183,7 +224,8 @@
       			</td>
       		</tr>
       	</c:forEach>
-      	<table style="float: left; overflow: hidden;">
+      	</table>
+      	<table class="site_form_table"  style="float: left; overflow: hidden;">
       	<c:forEach var="area" items="${specialisedItems}" step="3" begin="2">   
       		<tr>
       			<td>

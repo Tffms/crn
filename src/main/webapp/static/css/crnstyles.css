@@ -180,7 +180,7 @@ a img {
 		text-align: center;
 	  }
 
-p, li {
+p, li, td {
 	padding: 8px;
 	font: 12px Arial, Helvetica, sans-serif;
 	line-height:20px; 
@@ -193,6 +193,13 @@ h3{
 	font: 16px Arial, Helvetica, sans-serif;
 	color: #595959;
 	font-weight: bold;
+}
+
+th, .table_heading{
+	font: 16px Arial, Helvetica, sans-serif;
+	color: #595959;
+	height: 25px;
+	text-align: left;
 }
 
 .body_content{	
@@ -343,6 +350,19 @@ h3{
 	width: 60%;
 	min-width: 800px;
 	padding: 0 20%;
+}
+
+.body_content .site_form_table{
+	margin: 0 5px 20px 5px;
+	
+}
+
+.body_content .site_form_table td{
+	padding: 4px;
+}
+
+.textbox_small{
+	width: 40px;
 }
 
 
