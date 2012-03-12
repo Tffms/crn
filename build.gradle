@@ -16,7 +16,8 @@ configurations{
 }
 
 dependencies{
-	compile	fileTree(dir: 'c:/Apps/appengine_libs')
+	compile	fileTree(dir: "${appengine_home}/lib/user")
+	compile	fileTree(dir: "${appengine_home}/lib/user/orm")
 	compile 'com.google.api-client:google-api-client:1.6.0-beta',
 			'com.google.collections:google-collections:1.0',
 			'org.codehaus.jackson:jackson-core-asl:1.9.4',			
@@ -34,8 +35,9 @@ dependencies{
 			'log4j:log4j:1.2.14',	
 			'mysql:mysql-connector-java:5.1.6',
 			'org.springframework:spring-orm:3.1.1.RELEASE'
-	enhancer fileTree(dir: 'c:/Apps/appengine_enhancer_libs')
-	gaetools fileTree(dir: 'D:/eclipse_indigo/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.6.3.v201202290255r37/appengine-java-sdk-1.6.3/lib')
+	//enhancer fileTree(dir: 'c:/Apps/appengine_enhancer_libs')
+	enhancer fileTree(dir: "${appengine_home}/lib/tools/orm", include: ['datanucleus-enhancer*.jar', 'asm*.jar']) 
+	gaetools fileTree(dir: "${appengine_home}/lib")
 }
 
 task (jdoEnhance) << {
@@ -72,7 +74,7 @@ task (createwar, dependsOn: 'jdoEnhance') << {
 }
 
 task(rungae) << {
-	ant.property(name: "appengine.sdk.home", location:"D:/eclipse_indigo/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.6.3.v201202290255r37/appengine-java-sdk-1.6.3")
+	ant.property(name: "appengine.sdk.home", location:"${appengine_home}")
 	ant.java(classname: "com.google.appengine.tools.KickStart", classpath: "${configurations.gaetools.asPath}", fork:"true", failonerror:"true"){
 		ant.arg(value: "com.google.appengine.tools.development.DevAppServerMain")
 		ant.arg(value: "--port=8888")
