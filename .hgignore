@@ -1,5 +1,15 @@
 syntax: glob
 target/**
 bin/**
+.gradle/**
 
 syntax: regexp
+
+syntax: regexp
+^thirdpartylibs$
+syntax: regexp
+^build$
+syntax: regexp
+^gaeout$
+syntax: regexp
+^\.settings$

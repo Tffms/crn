@@ -1,33 +1,88 @@
 apply plugin: 'eclipse'
 apply plugin: 'java'
-apply plugin: 'war'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.6
 version = '1.0'
 
 repositories {
     mavenCentral()
+	mavenRepo urls: "http://www.datanucleus.org/downloads/maven2"
 }
 
 configurations{
 	compile.exclude module: 'commons-logging'
+	enhancer.extendsFrom compile
+	gaetools
 }
 
 dependencies{
-	runtime 'com.google.api-client:google-api-client:1.6.0-beta',
+	compile	fileTree(dir: 'c:/Apps/appengine_libs')
+	compile 'com.google.api-client:google-api-client:1.6.0-beta',
 			'com.google.collections:google-collections:1.0',
-			'org.codehaus.jackson:jackson-core-asl:1.9.4',
-			'javax.jdo:jdo2-api:2.3-eb',
+			'org.codehaus.jackson:jackson-core-asl:1.9.4',			
 			'com.googlecode.jsontoken:jsontoken:1.0',
 			'jstl:jstl:1.2',
 			'net.sf.jsr107cache:jsr107cache:1.1',
 			'junit:junit:4.10',
-			'org.springframework:spring-jdbc:3.0.5.RELEASE',
-			'org.springframework:spring-webmvc:3.0.5.RELEASE',
+			'org.springframework:spring-jdbc:3.1.1.RELEASE',
+			'org.springframework:spring-webmvc:3.1.1.RELEASE',
 			'taglibs:standard:1.1.2',
 			'org.apache.tiles:tiles-jsp:2.2.2',
 			'xalan:xalan:2.7.1',
 			'org.slf4j:slf4j-api:1.5.8',
 			'org.slf4j:slf4j-log4j12:1.5.8',
-			'log4j:log4j:1.2.14'
+			'log4j:log4j:1.2.14',	
+			'mysql:mysql-connector-java:5.1.6',
+			'org.springframework:spring-orm:3.1.1.RELEASE'
+	enhancer fileTree(dir: 'c:/Apps/appengine_enhancer_libs')
+	gaetools fileTree(dir: 'D:/eclipse_indigo/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.6.3.v201202290255r37/appengine-java-sdk-1.6.3/lib')
 }
+
+task (jdoEnhance) << {
+	//println configurations.enhancer.asPath
+	ant.path (id: "enhancer.classpath"){
+		ant.pathelement(location: "bin")
+		ant.pathelement(path: configurations.enhancer.asPath)
+	}
+	ant.taskdef(name: "datanucleusenhancer", classpathref: "enhancer.classpath", classname: "org.datanucleus.enhancer.tools.EnhancerTask")		
+	ant.datanucleusenhancer(classpathref: "enhancer.classpath", failonerror: true, verbose: true){
+		ant.fileset(dir: "bin"){
+			ant.include(name: "**/*.class")
+		}
+	}
+}
+
+task (createwar, dependsOn: 'jdoEnhance') << {
+	
+	ant.delete(dir: "thirdpartylibs")
+	ant.delete(dir: "gaeout/crngaewar")
+	ant.delete(dir: "gaeout/crngae.war")
+	ant.copy(todir : "thirdpartylibs", flatten : "true"){
+		ant.path{
+			pathelement(path: configurations.compile.asPath)
+		}
+	}
+	ant.war(destfile: "gaeout/crngae.war", webxml: "src/main/webapp/WEB-INF/web.xml"){
+		ant.classes(dir: "bin")
+		ant.fileset(dir: "src/main/webapp")
+		ant.lib(dir: "thirdpartylibs")
+	}
+	
+	ant.unzip(src: "gaeout/crngae.war", dest: "gaeout/crngaewar")
+}
+
+task(rungae) << {
+	ant.property(name: "appengine.sdk.home", location:"D:/eclipse_indigo/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.6.3.v201202290255r37/appengine-java-sdk-1.6.3")
+	ant.java(classname: "com.google.appengine.tools.KickStart", classpath: "${configurations.gaetools.asPath}", fork:"true", failonerror:"true"){
+		ant.arg(value: "com.google.appengine.tools.development.DevAppServerMain")
+		ant.arg(value: "--port=8888")
+		ant.arg(value: "--address=localhost")
+		ant.arg(value: "gaeout/crngaewar")
+	}
+}
+
+
+
+
+
+

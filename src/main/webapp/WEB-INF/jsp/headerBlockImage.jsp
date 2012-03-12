@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<div id="header_title1"></div>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<div id="header_title1">
+	<c:if test="${crnCycle ne null}">
+		<img alt="crn cycle" src="${crnCycle}" style="height: 100%; width: 100%;">	
+	</c:if>
+	
+</div>
 <div id="header_image">
-	<img alt="home_img" src="/static/images/home_pic1.png"
+	<img alt="home_img" src="${imageurl}"
 		style="height: 100%; width: 100%;">
 </div>

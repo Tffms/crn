@@ -5,7 +5,7 @@
 <c:set value="${(userSession ne null) ? userSession.userInfo : null}" var="userInfo"></c:set>
 
 <div class="body_content" >
-	<form:form  dojoType="dijit.form.Form" commandName="studySite" id="studyCenterForm" data-dojo-id="studyCenterForm">  
+	<form:form action="/form/register/submitStudySiteForm.htm"  dojoType="dijit.form.Form" commandName="studySite" id="studyCenterForm" data-dojo-id="studyCenterForm">  
 		 <table class="site_form_table" id="site_form_table1"  style="float: left; overflow: hidden;">
 		 <thead>
 		 	<tr>
@@ -115,7 +115,7 @@
       	</tbody>
       </table>
       
-      <table class="site_form_table" id="iaTable">
+      <table class="site_form_table" id="iaTable" style="width: 600px">
       	<thead>
       		<tr>
       			<th colspan="2">Investigators Associated</th>
@@ -193,49 +193,76 @@
 					missingMessage="Please Enter your email address" />
       		</td>
       	</tr>
+      	<tr>
+      		<td colspan="4" style="text-align: left;">
+      			<div>
+			      	<input type="hidden" value="1" id="currentRowCount">
+			      	<a href="javascript:void(0)" id="addIARow" >Add More.. </a>
+			      </div>
+      		</td>
+      	
+      	</tr>
       	</tbody>
       </table>
-      <div>
-      	<input type="hidden" value="1" id="currentRowCount">
-      	<a href="javascript:void(0)" id="addIARow" >Add More.. </a>
-      </div>
-      <div class="table_heading" style="margin-left: 5px; margin-top: 20px;">Area/Specialization</div>
-      <table class="site_form_table" style="float: left; overflow: hidden;">
-      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="0">   
-      		<tr>
-      			<td>
-      				<form:checkbox dojoType="dijit.form.CheckBox"  path="specialisedAreas" value="${area}"/>
-      			</td>
-      			<td>
-      				<c:out value="${area}"></c:out>
-      			</td>
-      		</tr>
-      	</c:forEach>
+      
+      
+      <table>
+      	<tr><td colspan="3"><div class="table_heading" style="margin-left: 5px; margin-top: 20px; text-align: left;">Area/Specialization</div> </td></tr>
+      	<tr>
+      		<td>
+      			 <table class="site_form_table">
+			      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="0">   
+			      		<tr>
+			      			<td>
+			      				<form:checkbox dojoType="dijit.form.CheckBox"  path="specialisedAreas" value="${area}"/>
+			      			</td>
+			      			<td>
+			      				<c:out value="${area}"></c:out>
+			      			</td>
+			      		</tr>
+			      	</c:forEach>
+			      </table>      		
+      		</td>
+      		<td>      			
+      			<table  class="site_form_table">
+			      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="1">   
+			      		<tr>
+			      			<td>
+			      				<form:checkbox dojoType="dijit.form.CheckBox" path="specialisedAreas" value="${area}"/>
+			      			</td>
+			      			<td>
+			      				<c:out value="${area}"></c:out>
+			      			</td>
+			      		</tr>
+			      	</c:forEach>
+		      	</table>
+      		</td>
+      		<td>
+      			<table class="site_form_table">
+			      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="2">   
+			      		<tr>
+			      			<td>
+			      				<form:checkbox dojoType="dijit.form.CheckBox" path="specialisedAreas" value="${area}"/>
+			      			</td>
+			      			<td>
+			      				<c:out value="${area}"></c:out>
+			      			</td>
+			      		</tr>
+			      	</c:forEach>			      
+			      </table>
+      		</td>
+      	</tr>
+      	<tr>
+      		<td colspan="3" style="text-align: left;">
+			      		<button data-dojo-type="dijit.form.Button" id="submitButton2">Send it!</button>
+			      	</td>
+      	</tr>
       </table>
       
-      <table  class="site_form_table" style="float: left; overflow: hidden;">
-      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="1">   
-      		<tr>
-      			<td>
-      				<form:checkbox dojoType="dijit.form.CheckBox" path="specialisedAreas" value="${area}"/>
-      			</td>
-      			<td>
-      				<c:out value="${area}"></c:out>
-      			</td>
-      		</tr>
-      	</c:forEach>
-      	</table>
-      	<table class="site_form_table"  style="float: left; overflow: hidden;">
-      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="2">   
-      		<tr>
-      			<td>
-      				<form:checkbox dojoType="dijit.form.CheckBox" path="specialisedAreas" value="${area}"/>
-      			</td>
-      			<td>
-      				<c:out value="${area}"></c:out>
-      			</td>
-      		</tr>
-      	</c:forEach>
-      </table>
+     
+      
+      
+      	
+      
 	</form:form>
 </div>

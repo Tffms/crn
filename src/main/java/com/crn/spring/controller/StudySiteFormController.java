@@ -10,8 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -22,9 +28,14 @@ import com.crn.type.FacilityType;
 
 @Controller
 @RequestMapping("/form/register")
-@SessionAttributes("studySite")
+@SessionAttributes({"studySite", "specialisedItems"})
 public class StudySiteFormController {
-
+	
+	@Autowired
+	@Qualifier("persistenceManagerFactory") 
+	PersistenceManagerFactory persistenceManagerFactory;
+	
+	public static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(StudySiteFormController.class);
 	@RequestMapping(value = "/viewStudySiteForm.htm", method = RequestMethod.GET)
 	public ModelAndView showStudySiteForm() {
 		StudySiteForm studySite = new StudySiteForm();
@@ -49,6 +60,37 @@ public class StudySiteFormController {
 		model.put("specialisedItems", areas);
 		model.put("studySite", studySite);
 		return new ModelAndView("studySiteForm", model);
+	}
+	
+	@RequestMapping("/editForm.htm")
+	public ModelAndView showFormForEdit(@ModelAttribute("studySite") StudySiteForm studySiteForm, @ModelAttribute("specialisedItems") List<String> splAreas){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("specialisedItems", splAreas);
+		model.put("studySite", studySiteForm);
+		return new ModelAndView("studySiteForm", model);
+	}
+	
+	@RequestMapping("/showSuccess.htm") 
+	public ModelAndView showSuccessform(){		
+		
+		return new ModelAndView("studySiteFormSuccess");
+	}
+	
+	@RequestMapping("/confirmData.htm") 
+	public ModelAndView showConfirmationScreen(@ModelAttribute("studySite") StudySiteForm studySiteForm){
+		logger.info("site name is : "  + studySiteForm.getSiteName());
+		logger.info(studySiteForm.getCity());
+		PersistenceManager manager = persistenceManagerFactory.getPersistenceManager();
+		logger.info(manager);
+		manager.makePersistent(studySiteForm);
+		return new ModelAndView("redirect:/form/register/showSuccess.htm");
+	}
+	
+	@RequestMapping(value = "/submitStudySiteForm.htm", method = RequestMethod.POST ) 
+	public ModelAndView submitStudySiteForm(@ModelAttribute("studySite") StudySiteForm studySiteForm){		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("studySite", studySiteForm);
+		return new ModelAndView("studySiteFormConfirm", model);
 	}
 
 }

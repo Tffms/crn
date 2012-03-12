@@ -3,29 +3,55 @@ package com.crn.spring.form;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
 import com.crn.type.FacilityType;
 import com.crn.type.Investigator;
 import com.crn.type.IrbType;
+import com.google.appengine.api.datastore.Key;
 
+@PersistenceCapable
 public class StudySiteForm implements Serializable{
 	
 	/**
 	 * 
 	 */ 
+	
 	private static final long serialVersionUID = 1L;
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+	
+	@Persistent
 	private String siteName;
+	@Persistent
 	private String addressLine1;
+	@Persistent
 	private String addressLine2;
+	@Persistent
 	private String city;
+	@Persistent
 	private String state;
+	@Persistent
 	private String zip;
+	@Persistent
 	private String phone;
+	@Persistent
 	private String fax;
+	@Persistent
 	private String email;
+	@Persistent
 	private String website;
+	@Persistent
 	private FacilityType facilityType;
+	@Persistent
 	private IrbType irbType;
+	@Persistent
 	private List<Investigator> investigators;
+	@Persistent
 	private List<String> specialisedAreas;
 
 	public String getAddressLine1() {
@@ -111,6 +137,12 @@ public class StudySiteForm implements Serializable{
 	}
 	public void setSpecialisedAreas(List<String> specialisedAreas) {
 		this.specialisedAreas = specialisedAreas;
+	}
+	public Key getKey() {
+		return key;
+	}
+	public void setKey(Key key) {
+		this.key = key;
 	}
 
 }

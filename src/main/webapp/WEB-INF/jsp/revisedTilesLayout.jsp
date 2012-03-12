@@ -24,10 +24,68 @@ var currentNav = "main_nav_id_1";
 		});
     });
 }); */
+function showOverlay(target){
+	console.log("show overlay called for : " + target);
+	require(["dojox/widget/Standby", "dijit/form/Button", "dojo/domReady!"], function(Standby, Button){
+		var standby = new Standby({
+			target: target
+		});
+		document.body.appendChild(standby.domNode);
+		standby.show();
+	} );
+}
 
-function clickSubmenu(target){	
+function hideOverlay(target){
+	console.log("hide overlay called for : " + target);
+	require(["dojox/widget/Standby", "dijit/form/Button", "dojo/domReady!"], function(Standby, Button){
+		var standby = new Standby({
+			target: target
+		});
+		document.body.appendChild(standby.domNode);
+		standby.hide();
+	} );
+}
+
+function clickmenu(target){
+	require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
+			function(on, dom, domClass, parser, query, domAttr) {
+				var submenu = domAttr.get(target, "subnav-class");
+		        var menuId = domAttr.get(target, "id");	
+		        require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/dom-attr", "dojo/dom", "dojo/dom-class", "dojo/query", "dojo/NodeList-dom", "dojo/domReady!"], 
+		        		function(Toggler, fx, domStyle, domAttr, dom, domClass, query) {
+				        	var t = new Toggler({
+								node : submenu,
+								showDuration: 500,
+								hideDuration : 500,
+								showFunc: fx.wipeIn,
+								hideFunc: fx.wipeOut
+							});
+				        	var t2 = new Toggler({
+								node : currentNav,
+								showDuration: 500,
+								hideDuration : 500,
+								showFunc: fx.wipeIn,
+								hideFunc: fx.wipeOut
+							});
+				        	if(currentNav != submenu){
+				        		query("#menubar div").removeClass("menu_selected");
+					        	domClass.add(menuId, "menu_selected");
+					        	t2.hide();
+					        	t.show();
+					        	currentNav = submenu;
+				        	}			
+				        	var submenutarget = query(dojo.byId(submenu)).query("div:first-child")[0]; 
+				        	console.log("handling onclick event" + submenutarget);
+				        	clickSubmenu(submenutarget);
+				        	loadContentPane(submenutarget);
+		        		});
+	});
+}
+
+function clickSubmenu(target){		
 	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"],
 			function(xhr, on, dom, domClass, parser, query, domAttr) {
+				console.log(" handling clickSubmenu using " + target);			
 				query(".submenu_item").removeClass("menu_selected");
 		    	domClass.add(target, "menu_selected");
 		    	imagepaneurl =  domAttr.get(target, "img-url");
@@ -67,27 +125,64 @@ function clickSubmenu(target){
 }
 
 function loadContentPane(target){
-	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr",  "dojo/NodeList-traverse", "dojo/domReady!"],
-			function(xhr, on, dom, domClass, parser, query, domAttr) {
+	require(["dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr",  "dojo/NodeList-traverse", "dojo/domReady!"],
+			function(Standby, xhr, on, dom, domClass, parser, query, domAttr) {
 				contenturl =  domAttr.get(target, "content-url");
+				console.log(" handling loadContentPane using " + target + " and context url " + contenturl);
 				if(contenturl){
 					destroyWidgets();
+					var standby = new Standby({
+						target: "contentpane"
+					});
+					document.body.appendChild(standby.domNode);
+					standby.show();
 					xhr.get({
 						url: contenturl,
 						load: function(newContent) {													
 							dom.byId("contentpane").innerHTML = newContent;
-							require(["dojo/parser", 
-										"dojox/validate/us", "dojox/validate/web",
-										"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
-										"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
-										function(parser){
-											parser.parse("studyCenterForm"); 
-											irbOption();
-											addIARow();
-										});
+							document.body.appendChild(standby.domNode);
+							standby.hide();
+							if(contenturl.indexOf("crnFaqs") != -1){
+								require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
+										function(on, dom, domClass, parser, query, domAttr) {
+												parser.parse("faq_content"); 
+												query(".show").on("click", function(e){
+													var content = query(e.currentTarget).next()[0];
+													require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/domReady!"], 
+															function(Toggler, fx, domStyle) {
+																var t = new Toggler({
+																	node : content,
+																	showDuration: 500,
+																	hideDuration : 200,
+																	showFunc: fx.wipeIn,
+																	hideFunc: fx.wipeOut
+																});
+																if(domStyle.get(content, "display") =='none'){
+																	t.show();
+																} else{
+																	t.hide();
+																}
+															});
+												});
+											});
+							}
+							if(contenturl.indexOf("viewStudySiteForm") != -1){
+								require(["dojo/parser", 
+											"dojox/validate/us", "dojox/validate/web",
+											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+											function(parser){
+												parser.parse("studyCenterForm"); 
+												irbOption();
+												addIARow();
+												submitEvent();
+											});
+							}	
 						},
 						error: function() {
 							dom.byId("contentpane").innerHTML = "";
+							document.body.appendChild(standby.domNode);
+							standby.hide();
 						}
 					});
 				} else{
@@ -99,11 +194,108 @@ function loadContentPane(target){
 function destroyWidgets(){
 	require(["dijit/registry", "dojo/_base/array"], function(registry, array){
 		array.forEach(registry.toArray(), function(widget, i){
-			console.log(widget.declaredClass);
+			//console.log(widget.declaredClass);
 			widget.destroy();
 		});
-		console.log(registry.length);
+		//console.log(registry.length);
 	});
+}
+
+function submitEvent(){
+	require(["dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/domReady!"], 
+			function(Standby, xhr, on, dom, domClass, parser, query, domAttr, construct) {
+				query("#submitButton2").on("click", 
+						function(e){
+							construct.destroy("temp_clone");
+							var standby = new Standby({
+								target: "contentpane"
+							});
+							document.body.appendChild(standby.domNode);
+							standby.show();
+							var xhrArgs = {
+									  form: dojo.byId("studyCenterForm"),
+								      load: function(data){
+								    	  dojo.byId("contentpane").innerHTML = data;
+								    	  document.body.appendChild(standby.domNode);
+								    	  standby.hide();
+								    	  destroyWidgets();
+								    	  registerConfirmEvent();								    	  
+								      },
+								      error: function(error){
+								        dojo.byId("contentpane").innerHTML = "";
+								        document.body.appendChild(standby.domNode);
+								        standby.hide();
+								      }
+								    }
+							xhr.post(xhrArgs);
+						});
+			});
+}
+
+
+function registerConfirmEvent(){
+	
+	require(["dojox/widget/Standby", "dojo/parser", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
+				function(Standby, parser, xhr, on, dom, domClass, parser, query, domAttr){
+					parser.parse("confirm_pane");
+					query("#submitButton3").on("click", 
+							function(e){
+							var standby = new Standby({
+								target: "contentpane"
+							});
+							document.body.appendChild(standby.domNode);
+							standby.show();
+								var xhrArgs = {
+										  url: "/form/register/confirmData.htm",
+									      load: function(data){
+									    	  dojo.byId("contentpane").innerHTML = data;
+									    	  document.body.appendChild(standby.domNode);
+									    	  standby.hide();
+									    	  destroyWidgets();									    	  
+									      },
+									      error: function(error){
+									        dojo.byId("contentpane").innerHTML = "";
+									        document.body.appendChild(standby.domNode);
+									        standby.hide();
+									      }
+									    }
+								xhr.get(xhrArgs);
+							});
+					query("#submitButton4").on("click", 
+							function(e){
+								var standby = new Standby({
+									target: "contentpane"
+								});
+								document.body.appendChild(standby.domNode);
+								standby.show();
+								var xhrArgs = {
+										  url: "/form/register/editForm.htm",
+									      load: function(data){
+									    	  dojo.byId("contentpane").innerHTML = data;
+									    	  document.body.appendChild(standby.domNode);
+									    	  standby.hide();
+									    	  require(["dojo/parser", 
+														"dojox/validate/us", "dojox/validate/web",
+														"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+														"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+														function(parser){
+									    		  			destroyWidgets();
+															parser.parse("studyCenterForm"); 
+															irbOption();
+															addIARow();
+															submitEvent();
+														});
+									      },
+									      error: function(error){
+									        dojo.byId("contentpane").innerHTML = "";
+									        document.body.appendChild(standby.domNode);
+									        standby.hide();
+									      }
+									    }
+								xhr.get(xhrArgs);
+							});
+				});
+	
 }
 
 function irbOption(){
@@ -173,37 +365,9 @@ function addIARow(){
 
 require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
 		function(on, dom, domClass, parser, query, domAttr) {
-			
+			clickmenu(dom.byId("main_nav_1")); 
 		    query(".menu_item").on("click", function(e){		        
-		        var submenu = domAttr.get(e.currentTarget, "subnav-class");
-		        var menuId = domAttr.get(e.currentTarget, "id");	
-		        require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/dom-attr", "dojo/dom", "dojo/dom-class", "dojo/query", "dojo/NodeList-dom", "dojo/domReady!"], 
-		        		function(Toggler, fx, domStyle, domAttr, dom, domClass, query) {
-				        	var t = new Toggler({
-								node : submenu,
-								showDuration: 500,
-								hideDuration : 500,
-								showFunc: fx.wipeIn,
-								hideFunc: fx.wipeOut
-							});
-				        	var t2 = new Toggler({
-								node : currentNav,
-								showDuration: 500,
-								hideDuration : 500,
-								showFunc: fx.wipeIn,
-								hideFunc: fx.wipeOut
-							});
-				        	if(currentNav != submenu){
-				        		query("#menubar div").removeClass("menu_selected");
-					        	domClass.add(menuId, "menu_selected");
-					        	t2.hide();
-					        	t.show();
-					        	currentNav = submenu;
-				        	}			
-				        	var submenutarget = query(dojo.byId(submenu)).query("div:first-child")[0]; 
-				        	clickSubmenu(submenutarget);
-				        	loadContentPane(submenutarget);
-		        		});
+		    	clickmenu(e.currentTarget);
 		    });
 		    
 		    query(".submenu_item").on("click", function(e){
@@ -232,6 +396,8 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 		parser.parse();
 	});
 	
+
+	
 </script>
 </head>
 <body class="claro">
@@ -244,7 +410,7 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 		<div  class="menu_item"	id="main_nav_1" subnav-class = "main_nav_id_1">
 			<a href="javascript:void(0)">Home</a></div>
 		<div class="menu_item" 	id="main_nav_2" subnav-class = "main_nav_id_2">
-			<a href="javascript:void(0)">Sponsor Services</a></div>		
+			<a href="javascript:void(0)">Pharma Services</a></div>		
 		<div class="menu_item" id="main_nav_3" subnav-class = "main_nav_id_3" >
 			<span><a href="javascript:void(0)">Investigator Services</a></span>
 		</div>
@@ -257,6 +423,25 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 	use above link to collapse submenublock -->
 	<div id="submenublock">
 		<div id="submenubar" >
+			
+			<div id="main_nav_id_1">
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=ABOUT_US" content-url="/public/home/crnAboutUs.htm" >
+					<a href="javascript:void(0)" >About us</a></div>
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=FAQS" content-url="/public/home/crnFaqs.htm" >
+					<a href="javascript:void(0)">FAQs</a></div>
+			</div>
+			<div id="main_nav_id_2" style="display:none">
+				<div class="submenu_item image_nav"  content-url="/public/home/pharmaHome.htm" >
+					<a href="javascript:void(0)">Home</a></div>
+				<div class="submenu_item image_nav" >
+					<a href="javascript:void(0)">Study Startup</a></div>
+				<div class="submenu_item image_nav" >
+					<a href="javascript:void(0)">Support</a></div>		
+				<div class="submenu_item image_nav" >
+					<a href="javascript:void(0)">Locate Investigator</a></div>	
+				<div class="submenu_item image_nav" >
+					<a href="javascript:void(0)">Regulatory Documents</a></div>		
+			</div>
 			<div id="main_nav_id_3" style="display:none"> 
 				<div class="submenu_item image_nav" img-url="/imagepane/staffing.htm">
 					<a href="javascript:void(0)">Staffing</a></div>
@@ -266,16 +451,6 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 					<a href="javascript:void(0)">Patient Referrals</a></div>
 				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
 					<a href="javascript:void(0)">Register Study Center</a></div>
-			</div>
-			<div id="main_nav_id_1">
-				<div class="submenu_item image_nav" >
-					<a href="javascript:void(0)">About us</a></div>
-			</div>
-			<div id="main_nav_id_2" style="display:none">
-				<div class="submenu_item image_nav" >
-					<a href="javascript:void(0)">Staffing</a></div>
-				<div class="submenu_item image_nav" >
-					<a href="javascript:void(0)">Call Center</a></div>		
 			</div>
 			<div id="main_nav_id_4" style="display:none">
 				<div class="submenu_item image_nav" >

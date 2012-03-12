@@ -64,4 +64,9 @@ public class HomeController {
 		return new ModelAndView("revised.crn");
 	}
 	
+	@RequestMapping("pharmaHome.htm") 
+	public ModelAndView pharmaHomeDisplay(){
+		return new ModelAndView("pharmaHome");
+	}
+	
 }
