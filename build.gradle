@@ -1,5 +1,6 @@
 apply plugin: 'eclipse'
 apply plugin: 'java'
+apply plugin: 'war'
 
 sourceCompatibility = 1.6
 version = '1.0'
@@ -40,48 +41,49 @@ dependencies{
 	gaetools fileTree(dir: "${appengine_home}/lib")
 }
 
-task (jdoEnhance) << {
-	//println configurations.enhancer.asPath
+
+task (explodeWar, dependsOn: 'war') << {
+	ant.unzip(src: "build/libs/crnweb2-1.0.war", dest: "build/crnweb2war")
+	
 	ant.path (id: "enhancer.classpath"){
-		ant.pathelement(location: "bin")
+		ant.pathelement(location: "build/crnweb2war/WEB-INF/classes")
 		ant.pathelement(path: configurations.enhancer.asPath)
 	}
 	ant.taskdef(name: "datanucleusenhancer", classpathref: "enhancer.classpath", classname: "org.datanucleus.enhancer.tools.EnhancerTask")		
 	ant.datanucleusenhancer(classpathref: "enhancer.classpath", failonerror: true, verbose: true){
-		ant.fileset(dir: "bin"){
+		ant.fileset(dir: "build/crnweb2war/WEB-INF/classes"){
 			ant.include(name: "**/*.class")
 		}
 	}
 }
 
-task (createwar, dependsOn: 'jdoEnhance') << {
-	
-	ant.delete(dir: "thirdpartylibs")
-	ant.delete(dir: "gaeout/crngaewar")
-	ant.delete(dir: "gaeout/crngae.war")
-	ant.copy(todir : "thirdpartylibs", flatten : "true"){
-		ant.path{
-			pathelement(path: configurations.compile.asPath)
-		}
-	}
-	ant.war(destfile: "gaeout/crngae.war", webxml: "src/main/webapp/WEB-INF/web.xml"){
-		ant.classes(dir: "bin")
-		ant.fileset(dir: "src/main/webapp")
-		ant.lib(dir: "thirdpartylibs")
-	}
-	
-	ant.unzip(src: "gaeout/crngae.war", dest: "gaeout/crngaewar")
-}
-
 task(rungae) << {
 	ant.property(name: "appengine.sdk.home", location:"${appengine_home}")
-	ant.java(classname: "com.google.appengine.tools.KickStart", classpath: "${configurations.gaetools.asPath}", fork:"true", failonerror:"true"){
+	ant.java(classname: "com.google.appengine.tools.KickStart", classpath: "${configurations.gaetools.asPath}", fork:"true", failonerror:"false"){
 		ant.arg(value: "com.google.appengine.tools.development.DevAppServerMain")
 		ant.arg(value: "--port=8888")
 		ant.arg(value: "--address=localhost")
-		ant.arg(value: "gaeout/crngaewar")
+		ant.arg(value: "--jvm_flag=-Dappengine.user.timezone=UTC")		
+		ant.arg(value: "build/crnweb2war")
 	}
 }
+
+task(stopgae)  << {
+	def command = """jps -lv"""
+	def proc = command.execute()
+	proc.waitFor()              
+	Scanner sc = new Scanner(proc.in)
+	while(sc.hasNext()){
+		def res =  sc.nextLine()
+		if(res.contains("DevAppServerMain")){
+			def pid = res.split(" ")[0].trim()
+			def killcommand = """taskkill /PID ${pid} /F"""
+			killcommand.execute()
+		}
+	}
+}
+
+
 
 
 
