@@ -368,3 +368,8 @@ th, .table_heading{
 .question{
 	font-size: 1.0em;
 }
+
+#headertextblock{
+	margin: 100px auto;
+	width: 80%;
+}

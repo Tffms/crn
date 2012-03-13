@@ -6,6 +6,10 @@
 		<img alt="crn cycle" src="${crnCycle}" style="height: 100%; width: 100%;">	
 	</c:if>
 	
+	<div id="headertextblock" >
+		<h3 id="text1"></h3>
+    </div>
+	
 </div>
 <div id="header_image">
 	<img alt="home_img" src="${imageurl}"

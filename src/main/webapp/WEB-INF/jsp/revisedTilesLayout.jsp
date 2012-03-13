@@ -83,8 +83,8 @@ function clickmenu(target){
 }
 
 function clickSubmenu(target){		
-	require(["dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"],
-			function(xhr, on, dom, domClass, parser, query, domAttr) {
+	require(["dojox/fx/text", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"],
+			function(text, xhr, on, dom, domClass, parser, query, domAttr) {
 				console.log(" handling clickSubmenu using " + target);			
 				query(".submenu_item").removeClass("menu_selected");
 		    	domClass.add(target, "menu_selected");
@@ -101,7 +101,14 @@ function clickSubmenu(target){
 					    		   },
 					    		   onEnd: function(){
 					    			   		dom.byId("header_image_block").innerHTML = newContent;
-											dojo.parser.parse("header_image_block");										
+											dojo.parser.parse("header_image_block");	
+											properties = {
+															node: "text1",
+															duration: 3000,
+															random: 0.3,
+															text: "Our Mission is to provide high quality, efficient and ethical clinical trial support services to our customers."
+														}
+											text.blockFadeIn(properties).play();   											
 					    			 	}
 					    		 }).play();
 					    	});						
