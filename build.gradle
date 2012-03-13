@@ -4,6 +4,7 @@ apply plugin: 'war'
 
 sourceCompatibility = 1.6
 version = '1.0'
+baseName = 'crnweb2'
 
 repositories {
     mavenCentral()
@@ -41,8 +42,12 @@ dependencies{
 	gaetools fileTree(dir: "${appengine_home}/lib")
 }
 
+task crnwar(type: War) {
+    baseName = 'crnweb2'
+}
 
-task (explodeWar, dependsOn: 'war') << {
+
+task (explodeWar, dependsOn: 'crnwar') << {
 	ant.unzip(src: "build/libs/crnweb2-1.0.war", dest: "build/crnweb2war")
 	
 	ant.path (id: "enhancer.classpath"){
