@@ -83,7 +83,8 @@ task(stopgae)  << {
 		if(res.contains("DevAppServerMain")){
 			def pid = res.split(" ")[0].trim()
 			def killcommand = """taskkill /PID ${pid} /F"""
-			killcommand.execute()
+			def killprocess = killcommand.execute()
+			println killprocess.text
 		}
 	}
 }
