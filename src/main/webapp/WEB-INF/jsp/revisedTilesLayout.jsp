@@ -438,26 +438,26 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 					<a href="javascript:void(0)">FAQs</a></div>
 			</div>
 			<div id="main_nav_id_2" style="display:none">
-				<div class="submenu_item image_nav"  content-url="/public/home/pharmaHome.htm" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME" content-url="/public/home/pharmaHome.htm" >
 					<a href="javascript:void(0)">Home</a></div>
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
 					<a href="javascript:void(0)">Study Startup</a></div>
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
 					<a href="javascript:void(0)">Support</a></div>		
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
 					<a href="javascript:void(0)">Locate Investigator</a></div>	
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
 					<a href="javascript:void(0)">Regulatory Documents</a></div>		
 			</div>
 			<div id="main_nav_id_3" style="display:none"> 
+				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
+						<a href="javascript:void(0)">Register Study Center</a></div>
 				<div class="submenu_item image_nav" img-url="/imagepane/staffing.htm">
 					<a href="javascript:void(0)">Staffing</a></div>
 				<div class="submenu_item image_nav" >
 					<a href="javascript:void(0)">Clinical Train</a></div>
 				<div  class="submenu_item image_nav">
 					<a href="javascript:void(0)">Patient Referrals</a></div>
-				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
-					<a href="javascript:void(0)">Register Study Center</a></div>
 			</div>
 			<div id="main_nav_id_4" style="display:none">
 				<div class="submenu_item image_nav" >

@@ -155,25 +155,27 @@
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
       		</td>
       	</tr>
+      	<c:forEach  items="${studySite.investigators}" varStatus="status" begin="1">
+      		<tr class="iaclass">
+	      		<td>
+	      			<form:input path="investigators[${status.index}].name"  type="text" required="true" placeholder="Investigator Name" 
+						dojoType="dijit.form.ValidationTextBox" row-count="1" missingMessage="Please Enter your email address" />
+	      		</td>
+	      		<td>
+	      			<form:input class="textbox_small" path="investigators[${status.index}].subi"  type="text" required="true" placeholder="Type" 
+						dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+	      		</td>
+	      		<td>
+	      			<form:input class="textbox_small" path="investigators[${status.index}].experience"  type="text" required="true" placeholder="Experience" 
+						dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+	      		</td>
+	      		<td>
+	      			<form:input path="investigators[${status.index}].area"  type="text" required="true" placeholder="Speciality" 
+						dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+	      		</td>
+	      	</tr>
+      	</c:forEach>
       	
-      	<tr class="iaclass">
-      		<td>
-      			<form:input path="investigators[1].name"  type="text" required="true" placeholder="Investigator Name" 
-					dojoType="dijit.form.ValidationTextBox" row-count="1" missingMessage="Please Enter your email address" />
-      		</td>
-      		<td>
-      			<form:input class="textbox_small" path="investigators[1].subi"  type="text" required="true" placeholder="Type" 
-					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
-      		</td>
-      		<td>
-      			<form:input class="textbox_small" path="investigators[1].experience"  type="text" required="true" placeholder="Experience" 
-					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
-      		</td>
-      		<td>
-      			<form:input path="investigators[1].area"  type="text" required="true" placeholder="Speciality" 
-					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
-      		</td>
-      	</tr>
       	
       	<tr id="temp_clone" style="display: none;">
       		<td>
@@ -196,7 +198,7 @@
       	<tr>
       		<td colspan="4" style="text-align: left;">
       			<div>
-			      	<input type="hidden" value="1" id="currentRowCount">
+			      	<input type="hidden" value="0" id="currentRowCount">
 			      	<a href="javascript:void(0)" id="addIARow" >Add More.. </a>
 			      </div>
       		</td>

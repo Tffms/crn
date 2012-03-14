@@ -51,14 +51,14 @@
 							</tr>
 							<tr>
 								<td>Site IRB :</td>
-								<td>
-								<c:choose>
-									<c:when test="${studySite.irbType.typeId eq 1}">
+								<td><c:choose>
+										<c:when test="${studySite.irbType.typeId eq 1}">
 										Central
 									</c:when>
-									<c:otherwise>
-										Local : <c:out value="${studySite.irbType.typeName}"></c:out></td>
-									</c:otherwise>
+										<c:otherwise>
+										Local : <c:out value="${studySite.irbType.typeName}"></c:out>
+								</td>
+								</c:otherwise>
 								</c:choose>
 							</tr>
 						</tbody>
@@ -93,24 +93,58 @@
 							</tr>
 							<tr>
 								<td>Facility Type:</td>
-								<td>
-								<c:choose>
-									<c:when test="${studySite.facilityType.typeId eq 0}">
+								<td><c:choose>
+										<c:when test="${studySite.facilityType.typeId eq 0}">
 										Research Center
 									</c:when>
-									<c:otherwise>
+										<c:otherwise>
 										University
 									</c:otherwise>
-								</c:choose>
+									</c:choose>
 								</td>
 							</tr>
 						</tbody>
 					</table></td>
 			</tr>
+
+			<tr>
+				<td colspan="2">
+					<table class="site_form_table" id="iaTable">
+						<thead>
+							<tr>
+								<th colspan="2">Investigators Associated</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Name</td>
+								<td>PI/ Sub-I</td>
+								<td>Experience</td>
+								<td>Area/Speciality</td>
+							</tr>
+							<c:forEach var="inv" items="${studySite.investigators}">
+								<tr class="iaclass">
+									<td>
+										<c:out value="${inv.name}"></c:out>
+									</td>
+									<td>
+										<c:out value="${inv.subi}"></c:out>
+									</td>
+									<td>
+										<c:out value="${inv.experience}"></c:out>
+									</td>
+									<td>
+										<c:out value="${inv.area}"></c:out>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table></td>
+			</tr>
 			<tr>
 				<td colspan="2" style="text-align: left;">
-					<button	data-dojo-type="dijit.form.Button" id="submitButton3">Confirm</button>
-					<button	data-dojo-type="dijit.form.Button" id="submitButton4">Edit</button>
+					<button data-dojo-type="dijit.form.Button" id="submitButton3">Confirm</button>
+					<button data-dojo-type="dijit.form.Button" id="submitButton4">Edit</button>
 				</td>
 			</tr>
 		</table>
