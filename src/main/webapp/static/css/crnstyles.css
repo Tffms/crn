@@ -327,6 +327,7 @@ th, .table_heading{
 	width: 70%;
 	height: 100%;
 	min-height: 100px;
+	max-width: 900px;
 	padding: 0 15%;
 }
 
@@ -349,6 +350,7 @@ th, .table_heading{
 	min-height: 300px;
 	width: 70%;
 	min-width: 500px;
+	max-width: 900px;
 	padding: 0 15%;
 }
 
