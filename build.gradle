@@ -62,7 +62,7 @@ task (explodeWar, dependsOn: 'crnwar') << {
 	}
 }
 
-task(rungae) << {
+task(startgae) << {
 	ant.property(name: "appengine.sdk.home", location:"${appengine_home}")
 	ant.java(classname: "com.google.appengine.tools.KickStart", classpath: "${configurations.gaetools.asPath}", fork:"true", failonerror:"false"){
 		ant.arg(value: "com.google.appengine.tools.development.DevAppServerMain")

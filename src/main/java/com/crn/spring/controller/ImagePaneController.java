@@ -29,6 +29,10 @@ public class ImagePaneController {
 			model.put("imageurl", "/static/images/home_pic3.png");
 		} else if(selectedTab.equalsIgnoreCase("PHARMA_HOME")){
 			model.put("imageurl", "/static/images/home_pic4.png");
+		} else if(selectedTab.equalsIgnoreCase("OUTSOURCING_HOME")){
+			model.put("imageurl", "/static/images/home_pic5.png");
+		} else if(selectedTab.equalsIgnoreCase("TRAINING_HOME")){
+			model.put("imageurl", "/static/images/home_pic6.png");
 		}
 		return new ModelAndView("headerBlockImage", model);
 	}

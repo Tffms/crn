@@ -312,17 +312,27 @@ function irbOption(){
 			    	var submenu = domAttr.get(e.currentTarget, "value");		    	
 			    	require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/dom-attr", "dojo/dom", "dojo/dom-class", "dojo/query", "dojo/NodeList-dom", "dojo/domReady!"], 
 			        		function(Toggler, fx, domStyle, domAttr, dom, domClass, query) {
-					    		var t = new Toggler({
-									node : "irbName",
-									showFunc: fx.wipeIn,
-									hideFunc: fx.wipeOut
-								});
-					    		if(submenu == 1){
-					    			t.hide();
-					    		} else t.show();
+					    		if(submenu == 0){
+					    			domStyle.set("irbName", "visibility", "visible");
+					    		} else {
+					    			domStyle.set("irbName", "visibility", "hidden");
+					    		}
 					    		
 			    	});
 			    }); 
+				
+				query(".ftype input").on("click", function(e){
+			    	var submenu = domAttr.get(e.currentTarget, "value");		    	
+			    	require(["dojo/fx/Toggler", "dojo/fx", "dojo/dom-style", "dojo/dom-attr", "dojo/dom", "dojo/dom-class", "dojo/query", "dojo/NodeList-dom", "dojo/domReady!"], 
+			        		function(Toggler, fx, domStyle, domAttr, dom, domClass, query) {
+					    		if(submenu == 3){
+					    			domStyle.set("facilityTypeName", "visibility", "visible");
+					    		} else {
+					    			domStyle.set("facilityTypeName", "visibility", "hidden");
+					    		}
+					    		
+			    	});
+			    });
 	});
 }
 
@@ -449,22 +459,26 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
 					<a href="javascript:void(0)">Regulatory Documents</a></div>		
 			</div>
-			<div id="main_nav_id_3" style="display:none"> 
+			<div id="main_nav_id_3" style="display:none">
+				<div class="submenu_item image_nav" content-url="/public/home/investigorHome.htm" img-url="/imagepane/staffing.htm"> 
+					<a href="javascript:void(0)">Home</a></div>
+					 
 				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
 						<a href="javascript:void(0)">Register Study Center</a></div>
+				
 				<div class="submenu_item image_nav" img-url="/imagepane/staffing.htm">
 					<a href="javascript:void(0)">Staffing</a></div>
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" content-url="/public/home/investigorHome.htm"> 
 					<a href="javascript:void(0)">Clinical Train</a></div>
 				<div  class="submenu_item image_nav">
 					<a href="javascript:void(0)">Patient Referrals</a></div>
 			</div>
 			<div id="main_nav_id_4" style="display:none">
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=OUTSOURCING_HOME" content-url="/public/home/outsourcingHome.htm"> 
 					<a href="javascript:void(0)">Home</a></div>
 			 </div>
 			<div id="main_nav_id_5" style="display:none">
-				<div class="submenu_item image_nav" >
+				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=TRAINING_HOME" content-url="/public/home/trainingHome.htm"> 
 					<a href="javascript:void(0)">Home</a></div>
 			 </div>
 		</div>
@@ -475,6 +489,17 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 	</div>
 	<div id="contentpane" >
 	
+	</div>
+	<div id="crn_footer"> 
+		
+			<ul style="width: 70%; margin-left:auto; margin-right:auto;" >
+			<li><a href="#">Contact</a></li>
+			<li><a href="#">Privacy</a></li>
+			<li><a href="#">Terms of Use</a></li>
+			<li><a href="#">Accessibility</a></li>
+			<li><a href="#">Feedback</a></li>
+			</ul>
+			
 	</div>
 </body>
 </html>

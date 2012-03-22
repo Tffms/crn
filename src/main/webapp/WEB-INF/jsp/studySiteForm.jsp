@@ -108,8 +108,15 @@
           
           <tr>
               <td>Facility Type:</td>
-		              <td>Research Center: <form:radiobutton path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br/>
-		         University : <form:radiobutton path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" /> </td>
+		              <td>Research Center: <form:radiobutton class="ftype" path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br/>
+		         University : <form:radiobutton class="ftype" path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" />  <br/>
+		         Private Practice: <form:radiobutton class="ftype" path="facilityType.typeId" value="2" dojoType="dijit.form.RadioButton" /> <br /> 
+		         Others: <form:radiobutton class="ftype" path="facilityType.typeId" value="3" dojoType="dijit.form.RadioButton" />
+		         <br />
+		          <span id="facilityTypeName" style="visibility:hidden;">
+		         <form:input path="facilityType.typeName"    type="text" required="true" placeholder="Facility Type Name " 
+					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter Facility type name" /> </span> 
+		         </td>
           </tr>
      
       	</tbody>

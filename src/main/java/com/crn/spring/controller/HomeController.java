@@ -69,4 +69,19 @@ public class HomeController {
 		return new ModelAndView("pharmaHome");
 	}
 	
+	@RequestMapping("outsourcingHome.htm")
+	public ModelAndView outSourcingHome(){
+		return new ModelAndView("crnOutsourcing"); 
+	}
+	
+	@RequestMapping("trainingHome.htm") 
+	public ModelAndView trainingHome(){
+		return new ModelAndView("crntraining");
+	}
+	
+	@RequestMapping("investigorHome.htm") 
+	public ModelAndView investigatorServicesHome(){
+		return new ModelAndView("investigatorServicesHome");
+	}
+	
 }

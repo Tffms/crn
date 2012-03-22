@@ -16,6 +16,8 @@
 		<include path="/static/images/home_pic2.png"></include>
 		<include path="/static/images/home_pic3.png"></include>
 		<include path="/static/images/home_pic4.png"></include>
+		<include path="/static/images/home_pic5.png"></include>
+		<include path="/static/images/home_pic6.png"></include>
 		<include path="/static/images/crn_cycle.png"></include>
 	</static-files>
 	

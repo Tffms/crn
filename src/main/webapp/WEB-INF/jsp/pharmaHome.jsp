@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <div class="body_content">
+<h3> How do we work with Pharmaceutical Companies :</h3>
 	<p>Clinical Research Networking networks with Pharmaceuticals
 		companies, Clinical Investigators & Clinical Research Organizations to
 		achieve their business goals. The primary purpose of establishment
