@@ -61,8 +61,8 @@
           <tr >
           	<td>Site IRB :</td>
           	<td>
-          		Central: <form:radiobutton class="irb" path="irbType.typeId" value="1" dojoType="dijit.form.RadioButton" /> <br/>
-		         Local : <form:radiobutton class="irb" path="irbType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br />
+          		 <form:radiobutton class="irb" path="irbType.typeId" value="1" dojoType="dijit.form.RadioButton" /> &nbsp; Central<br/>
+		         <form:radiobutton class="irb" path="irbType.typeId" value="0" dojoType="dijit.form.RadioButton" /> &nbsp; Local <br />
 		         <span id="irbName" style="display: none;">
 		         <form:input path="irbType.typeName"    type="text" required="true" placeholder="Contact Phone #" 
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter contact Phone number" /> </span>
@@ -108,10 +108,10 @@
           
           <tr>
               <td>Facility Type:</td>
-		              <td>Research Center: <form:radiobutton class="ftype" path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> <br/>
-		         University : <form:radiobutton class="ftype" path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" />  <br/>
-		         Private Practice: <form:radiobutton class="ftype" path="facilityType.typeId" value="2" dojoType="dijit.form.RadioButton" /> <br /> 
-		         Others: <form:radiobutton class="ftype" path="facilityType.typeId" value="3" dojoType="dijit.form.RadioButton" />
+		              <td><form:radiobutton class="ftype" path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> &nbsp; Research Center<br/>
+		          <form:radiobutton class="ftype" path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" />&nbsp;   University <br/>
+		          <form:radiobutton class="ftype" path="facilityType.typeId" value="2" dojoType="dijit.form.RadioButton" /> &nbsp; Private Practice <br /> 
+		          <form:radiobutton class="ftype" path="facilityType.typeId" value="3" dojoType="dijit.form.RadioButton" />&nbsp;  Other
 		         <br />
 		          <span id="facilityTypeName" style="visibility:hidden;">
 		         <form:input path="facilityType.typeName"    type="text" required="true" placeholder="Facility Type Name " 
@@ -150,8 +150,11 @@
 					dojoType="dijit.form.ValidationTextBox" row-count="0" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
-      			<form:input class="textbox_small" path="investigators[0].subi" size="3"  type="text" required="true" placeholder="Type" 
-					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+      		
+      			<form:select path="investigators[0].subi" dojoType="dijit.form.Select">
+      				<form:option value="PI" >PI</form:option>
+      				<form:option value="Sub-I">Sub-I</form:option>
+      			</form:select>
       		</td>
       		<td>
       			<form:input class="textbox_small" path="investigators[0].experience" size="3"  type="text" required="true" placeholder="Experience" 
