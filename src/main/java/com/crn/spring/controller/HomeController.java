@@ -74,6 +74,11 @@ public class HomeController {
 		return new ModelAndView("crnOutsourcing"); 
 	}
 	
+	@RequestMapping("userTest.htm")
+	public ModelAndView outSourcingTest(){
+		return new ModelAndView("crnOutsourcing"); 
+	}
+	
 	@RequestMapping("trainingHome.htm") 
 	public ModelAndView trainingHome(){
 		return new ModelAndView("crntraining");
@@ -82,6 +87,11 @@ public class HomeController {
 	@RequestMapping("investigorHome.htm") 
 	public ModelAndView investigatorServicesHome(){
 		return new ModelAndView("investigatorServicesHome");
+	}
+	
+	@RequestMapping("login.htm") 
+	public ModelAndView login(){
+		return new ModelAndView("login");
 	}
 	
 }

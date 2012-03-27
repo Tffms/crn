@@ -176,7 +176,7 @@ function loadContentPane(target){
 							if(contenturl.indexOf("viewStudySiteForm") != -1){
 								require(["dojo/parser", 
 											"dojox/validate/us", "dojox/validate/web",
-											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/FilteringSelect", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
 											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
 											function(parser){
 												parser.parse("studyCenterForm"); 
@@ -354,8 +354,14 @@ function addIARow(){
 							  							  
 							  
 							  array.forEach(query("#newNode" + currentCount).query("input"), function(e, i){
-								  console.log("input element "  + e);
 								  attr.set(e, "dojoType", "dijit.form.ValidationTextBox");
+								  var nameAttr = attr.get(e, "name");
+								  attr.set(e, "name", nameAttr.replace("newIndex", parseInt(currentCount) + 1))
+								  attr.set(e, "id", nameAttr.replace("newIndex", parseInt(currentCount) + 1))
+							  });
+							  
+							  array.forEach(query("#newNode" + currentCount).query("select"), function(e, i){
+								  attr.set(e, "dojoType", "dijit.form.Select");
 								  var nameAttr = attr.get(e, "name");
 								  attr.set(e, "name", nameAttr.replace("newIndex", parseInt(currentCount) + 1))
 								  attr.set(e, "id", nameAttr.replace("newIndex", parseInt(currentCount) + 1))

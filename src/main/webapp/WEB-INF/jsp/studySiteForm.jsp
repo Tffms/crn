@@ -63,7 +63,7 @@
           	<td>
           		 <form:radiobutton class="irb" path="irbType.typeId" value="1" dojoType="dijit.form.RadioButton" /> &nbsp; Central<br/>
 		         <form:radiobutton class="irb" path="irbType.typeId" value="0" dojoType="dijit.form.RadioButton" /> &nbsp; Local <br />
-		         <span id="irbName" style="display: none;">
+		         <span id="irbName" style="visibility: hidden;">
 		         <form:input path="irbType.typeName"    type="text" required="true" placeholder="Contact Phone #" 
 					dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter contact Phone number" /> </span>
           	</td>
@@ -151,7 +151,8 @@
       		</td>
       		<td>
       		
-      			<form:select path="investigators[0].subi" dojoType="dijit.form.Select">
+      			<form:select style="width: 100px;" path="investigators[0].subi" dojoType="dijit.form.Select">
+      				<form:option value="-1">Select</form:option>
       				<form:option value="PI" >PI</form:option>
       				<form:option value="Sub-I">Sub-I</form:option>
       			</form:select>
@@ -172,8 +173,11 @@
 						dojoType="dijit.form.ValidationTextBox" row-count="1" missingMessage="Please Enter your email address" />
 	      		</td>
 	      		<td>
-	      			<form:input class="textbox_small" path="investigators[${status.index}].subi"  type="text" required="true" placeholder="Type" 
-						dojoType="dijit.form.ValidationTextBox" missingMessage="Please Enter your email address" />
+	      			<form:select style="width: 100px;" path="investigators[${status.index}].subi" dojoType="dijit.form.Select">
+	      				<form:option value="-1">Select</form:option>
+	      				<form:option value="PI" >PI</form:option>
+	      				<form:option value="Sub-I">Sub-I</form:option>
+	      			</form:select>
 	      		</td>
 	      		<td>
 	      			<form:input class="textbox_small" path="investigators[${status.index}].experience"  type="text" required="true" placeholder="Experience" 
@@ -193,8 +197,11 @@
 					 row-count="0" missingMessage="Please Enter your email address" />
       		</td>
       		<td>
-      			<input class="textbox_small" name="investigators[newIndex].subi"  type="text" required="true" placeholder="Type" 
-					 missingMessage="Please Enter your email address" />
+      			<select style="width: 100px;" name="investigators[newIndex].subi" placeholder="Type"  missingMessage="Please Enter your email address">
+      				<option value="-1">Select</option>
+      				<option value="PI">PI</option>
+      				<option value="Sub-I">Sub-I</option>
+      			</select>
       		</td>
       		<td>
       			<input class="textbox_small" name="investigators[newIndex].experience" type="text" required="true" placeholder="Experience" 
