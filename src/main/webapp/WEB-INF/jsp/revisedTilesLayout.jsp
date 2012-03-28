@@ -177,27 +177,24 @@ function loadContentPane(target){
 											});
 							}
 							if(contenturl.indexOf("viewStudySiteForm") != -1){
-								if(newContent.indexOf("loginPageResponse") != -1){
-									require(["dojo/parser", 
-												"dojox/validate/us", "dojox/validate/web",
-												"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
-												"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
-												function(parser){
+								require(["dojo/parser", 
+											"dojox/validate/us", "dojox/validate/web",
+											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+											function(parser){
+												if(newContent.indexOf("loginPageResponse") != -1){
 													parser.parse("loginForm"); 
 													submitEvent();
-												});
-								} else {
-									require(["dojo/parser", 
-												"dojox/validate/us", "dojox/validate/web",
-												"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
-												"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
-												function(parser){
+													loadUserRegistrationpage();
+												} else {
 													parser.parse("studyCenterForm"); 
 													irbOption();
 													addIARow();
 													submitEvent();
-												});
-								}
+												}
+												
+											});
+								
 							}	
 						},
 						error: function() {
@@ -265,7 +262,8 @@ function submitEvent(){
 								    	  standby.hide();
 								    	  destroyWidgets();
 								    	  if(data.indexOf("loginPageResponse") != -1){
-								    		  parser.parse("loginForm");  
+								    		  parser.parse("loginForm"); 
+								    		  loadUserRegistrationpage();
 								    	  } else {
 								    		  console.log("parsing study center form"); 
 								    		  parser.parse("studyCenterForm"); 
@@ -284,6 +282,77 @@ function submitEvent(){
 							xhr.post(xhrArgs);
 						});
 			});
+}
+
+function loadUserRegistrationpage(){
+	require(["dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/domReady!"], 
+			function(Standby, xhr, on, dom, domClass, parser, query, domAttr, construct) {
+		var standby = new Standby({
+			target: "contentpane"
+		});
+		document.body.appendChild(standby.domNode);
+		standby.show();
+		xhr.get({
+			url: '<c:url value = "/public/register/showForm.htm" />',
+			load: function(newContent, ioargs) {	
+				var xhrstatus = ioargs.xhr.status;
+				console.log(" xhr status : " + xhrstatus);
+				dom.byId("registrationPane").innerHTML = newContent;
+				document.body.appendChild(standby.domNode);
+				standby.hide();
+				require(["dojo/parser", 
+							"dojox/validate/us", "dojox/validate/web",
+							"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+							"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+							function(parser){
+								parser.parse("registrationPane"); 
+								handleUserRegistrationSubmit();
+							});
+			},
+			error: function(ioargs) {
+				dom.byId("contentpane").innerHTML = "error occured";
+				document.body.appendChild(standby.domNode);
+				standby.hide();
+			}
+		});
+	});	
+}
+
+function handleUserRegistrationSubmit(){
+	require(["dojo", "dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/domReady!"], 
+			function(dojo, Standby, xhr, on, dom, domClass, parser, query, domAttr, construct) {
+		query("#userRegisterSubmitButton").on("click", 
+				function(e){
+					var standby = new Standby({
+						target: "contentpane"
+					});
+					document.body.appendChild(standby.domNode);
+					standby.show();
+					var xhrArgs = {
+							  form: dojo.byId("registerForm"),
+						      load: function(data){
+						    	  //dojo.byId("registrationPane").innerHTML = data;
+						    	  document.body.appendChild(standby.domNode);
+						    	  standby.hide();
+						    	  console.log("xhrget response data: " + data);	
+						    	  if(data == 'success'){
+						    		  console.log("destroying widgets.. ");
+						    		  destroyWidgets();
+						    		  clickSubmenu(dojo.byId("registerStudyCenterLink"));
+						    		  loadContentPane(dojo.byId("registerStudyCenterLink"));
+						    	  } else{
+						    		  dojo.byId("regFormMessage").innerHTML = data; 
+						    	  }
+						      },
+						      error: function(error){
+						        dojo.byId("contentpane").innerHTML = "";
+						        document.body.appendChild(standby.domNode);
+						        standby.hide();
+						      }
+						    }
+					xhr.post(xhrArgs);
+				});
+	});
 }
 
 
@@ -538,8 +607,8 @@ function getProperties(obj) {
 				<div class="submenu_item image_nav" content-url="<c:url value='/public/home/investigorHome.htm' /> " img-url="<c:url value='/imagepane/staffing.htm' /> "> 
 					<a href="javascript:void(0)">Home</a></div>
 					 
-				<div  class="submenu_item no_image_nav" content-url="<c:url value='/form/register/viewStudySiteForm.htm' /> " >
-						<a href="javascript:void(0)">Register Study Center</a></div>
+				<div id="registerStudyCenterLink"  class="submenu_item no_image_nav" content-url="<c:url value='/form/register/viewStudySiteForm.htm' /> " >
+						<a href="javascript:void(0)"  >Register Study Center</a></div>
 				
 				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/staffing.htm' /> ">
 					<a href="javascript:void(0)">Staffing</a></div>

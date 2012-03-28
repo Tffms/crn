@@ -1,21 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <span style="visibility: hidden;">loginPageResponse</span>
 <div class="body_content" onload='document.f.j_username.focus();'>
 	<table>
 		<tr>
-			<td>
-				<h3>Login with Username and Password (Custom Page)</h3> <c:if
-					test="${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'] ne null && not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+			<td valign="top" style="padding-right: 20px;">
+				<h3>Login with Username and Password</h3> 
+				<c:if test="${not empty param['error']}">
 					<p class='error'>
 						Your login attempt was not successful, try again.<br /> Caused :
 						${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
 					</p>
 				</c:if>
-
 				<form name='f' action="<c:url value='/j_spring_security_check' />"
 					method='POST' dojoType="dijit.form.Form" id="loginForm"
 					data-dojo-id="loginForm">
-
 					<table>
 						<tr>
 							<td>User:</td>
@@ -36,13 +35,13 @@
 							</td>
 						</tr>
 					</table>
-
 				</form>
 			</td>
-			<td>
+			<td style="padding-left: 20px; border-left: 1px solid #848284;"
+				valign="top">
+				<div id="registrationPane" ></div>
 				
 			</td>
 		</tr>
 	</table>
-
 </div>

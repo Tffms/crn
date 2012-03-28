@@ -14,11 +14,11 @@
  	
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/form/**" access="ROLE_USER" />
-		<security:form-login login-page="/public/home/login.htm" authentication-failure-url="/public/home/login.htm" />
+		<security:form-login login-page="/public/home/login.htm" authentication-failure-url="/public/home/login.htm?error=1" />
 		<security:logout logout-success-url="/user/logout.htm" />
 	</security:http>
 	
-	<security:authentication-manager>
+	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider ref="crnAuthenticationProvider"></security:authentication-provider>
 	</security:authentication-manager>
  

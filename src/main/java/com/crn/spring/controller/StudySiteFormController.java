@@ -36,6 +36,7 @@ public class StudySiteFormController {
 	PersistenceManagerFactory persistenceManagerFactory;
 	
 	public static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(StudySiteFormController.class);
+	
 	@RequestMapping(value = "/viewStudySiteForm.htm", method = RequestMethod.GET)
 	public ModelAndView showStudySiteForm() {
 		StudySiteForm studySite = new StudySiteForm();
