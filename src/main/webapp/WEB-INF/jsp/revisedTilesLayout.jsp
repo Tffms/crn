@@ -145,7 +145,9 @@ function loadContentPane(target){
 					standby.show();
 					xhr.get({
 						url: contenturl,
-						load: function(newContent) {													
+						load: function(newContent, ioargs) {	
+							var xhrstatus = ioargs.xhr.status;
+							console.log(" xhr status : " + xhrstatus);
 							dom.byId("contentpane").innerHTML = newContent;
 							document.body.appendChild(standby.domNode);
 							standby.hide();
@@ -174,16 +176,27 @@ function loadContentPane(target){
 											});
 							}
 							if(contenturl.indexOf("viewStudySiteForm") != -1){
-								require(["dojo/parser", 
-											"dojox/validate/us", "dojox/validate/web",
-											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
-											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
-											function(parser){
-												parser.parse("studyCenterForm"); 
-												irbOption();
-												addIARow();
-												submitEvent();
-											});
+								if(newContent.indexOf("loginPageResponse") != -1){
+									require(["dojo/parser", 
+												"dojox/validate/us", "dojox/validate/web",
+												"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+												"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+												function(parser){
+													parser.parse("loginForm"); 
+													submitEvent();
+												});
+								} else {
+									require(["dojo/parser", 
+												"dojox/validate/us", "dojox/validate/web",
+												"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+												"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+												function(parser){
+													parser.parse("studyCenterForm"); 
+													irbOption();
+													addIARow();
+													submitEvent();
+												});
+								}
 							}	
 						},
 						error: function() {
@@ -230,6 +243,39 @@ function submitEvent(){
 								      },
 								      error: function(error){
 								        dojo.byId("contentpane").innerHTML = "";
+								        document.body.appendChild(standby.domNode);
+								        standby.hide();
+								      }
+								    }
+							xhr.post(xhrArgs);
+						});
+				query("#loginSubmitButton").on("click", 
+						function(e){
+							var standby = new Standby({
+								target: "contentpane"
+							});
+							document.body.appendChild(standby.domNode);
+							standby.show();
+							var xhrArgs = {
+									  form: dojo.byId("loginForm"),
+								      load: function(data){
+								    	  dojo.byId("contentpane").innerHTML = data;
+								    	  document.body.appendChild(standby.domNode);
+								    	  standby.hide();
+								    	  destroyWidgets();
+								    	  if(data.indexOf("loginPageResponse") != -1){
+								    		  parser.parse("loginForm");  
+								    	  } else {
+								    		  console.log("parsing study center form"); 
+								    		  parser.parse("studyCenterForm"); 
+											  irbOption();
+											  addIARow();
+								    	  }				    	  
+								    	  submitEvent();
+								      },
+								      error: function(error){
+								        dojo.byId("contentpane").innerHTML = "error occurred";
+								        destroyWidgets();
 								        document.body.appendChild(standby.domNode);
 								        standby.hide();
 								      }
@@ -419,7 +465,29 @@ require([ "dojo/parser", "dijit/DropDownMenu", "dijit/MenuSeparator", "dijit/Men
 		parser.parse();
 	});
 	
+function getMethods(obj) {
+    var methods = new Array();
 
+    for (var s in obj) {
+        if (typeof(obj[s]) == "function") {
+            methods[methods.length] = s;
+        }
+    }
+
+    return methods;
+}
+
+function getProperties(obj) {
+    var props = new Array();
+
+    for (var s in obj) {
+        if (typeof(obj[s]) != "function") {
+            props[props.length] = s;
+        }
+    }
+
+    return props;
+}
 	
 </script>
 </head>

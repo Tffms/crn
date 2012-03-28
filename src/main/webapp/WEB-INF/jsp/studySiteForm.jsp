@@ -59,7 +59,7 @@
               </td>
           </tr>
           <tr >
-          	<td>Site IRB :</td>
+          	<td valign="top">Site IRB :</td>
           	<td>
           		 <form:radiobutton class="irb" path="irbType.typeId" value="1" dojoType="dijit.form.RadioButton" /> &nbsp; Central<br/>
 		         <form:radiobutton class="irb" path="irbType.typeId" value="0" dojoType="dijit.form.RadioButton" /> &nbsp; Local <br />
@@ -107,7 +107,7 @@
           </tr>
           
           <tr>
-              <td>Facility Type:</td>
+              <td valign="top">Facility Type:</td>
 		              <td><form:radiobutton class="ftype" path="facilityType.typeId" value="0" dojoType="dijit.form.RadioButton" /> &nbsp; Research Center<br/>
 		          <form:radiobutton class="ftype" path="facilityType.typeId" value="1" dojoType="dijit.form.RadioButton" />&nbsp;   University <br/>
 		          <form:radiobutton class="ftype" path="facilityType.typeId" value="2" dojoType="dijit.form.RadioButton" /> &nbsp; Private Practice <br /> 
@@ -242,7 +242,7 @@
 			      	</c:forEach>
 			      </table>      		
       		</td>
-      		<td>      			
+      		<td valign="top">      			
       			<table  class="site_form_table">
 			      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="1">   
 			      		<tr>
@@ -256,7 +256,7 @@
 			      	</c:forEach>
 		      	</table>
       		</td>
-      		<td>
+      		<td valign="top">
       			<table class="site_form_table">
 			      	<c:forEach var="area" items="${specialisedItems}" step="3" begin="2">   
 			      		<tr>
