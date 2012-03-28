@@ -12,7 +12,7 @@
 					</p>
 				</c:if>
 
-				<form name='f' action="<c:url value='j_spring_security_check' />"
+				<form name='f' action="<c:url value='/j_spring_security_check' />"
 					method='POST' dojoType="dijit.form.Form" id="loginForm"
 					data-dojo-id="loginForm">
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,7 +15,7 @@
 	src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
 	data-dojo-config="isDebug: true, async: true">
 		</script>
-<link rel="stylesheet" href="/static/css/crnstyles.css">
+<link rel="stylesheet" href="<c:url value='/static/css/crnstyles.css' />" >
 <script>
 var currentNav = "main_nav_id_1";
 /* require(["dojo/ready", "dojo/parser", "dijit/registry", "dijit/Dialog"], function(ready, parser, registry){
@@ -516,43 +517,43 @@ function getProperties(obj) {
 		<div id="submenubar" >
 			
 			<div id="main_nav_id_1">
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=ABOUT_US" content-url="/public/home/crnAboutUs.htm" >
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=ABOUT_US' />" content-url="<c:url value='/public/home/crnAboutUs.htm' />" >
 					<a href="javascript:void(0)" >About us</a></div>
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=FAQS" content-url="/public/home/crnFaqs.htm" >
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=FAQS' />" content-url="<c:url value=' /public/home/crnFaqs.htm' />" >
 					<a href="javascript:void(0)">FAQs</a></div>
 			</div>
 			<div id="main_nav_id_2" style="display:none">
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME" content-url="/public/home/pharmaHome.htm" >
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=PHARMA_HOME' /> " content-url="<c:url value='/public/home/pharmaHome.htm' /> " >
 					<a href="javascript:void(0)">Home</a></div>
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=PHARMA_HOME' /> ">
 					<a href="javascript:void(0)">Study Startup</a></div>
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=PHARMA_HOME' /> ">
 					<a href="javascript:void(0)">Support</a></div>		
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=PHARMA_HOME' /> ">
 					<a href="javascript:void(0)">Locate Investigator</a></div>	
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=PHARMA_HOME">
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=PHARMA_HOME' /> ">
 					<a href="javascript:void(0)">Regulatory Documents</a></div>		
 			</div>
 			<div id="main_nav_id_3" style="display:none">
-				<div class="submenu_item image_nav" content-url="/public/home/investigorHome.htm" img-url="/imagepane/staffing.htm"> 
+				<div class="submenu_item image_nav" content-url="<c:url value='/public/home/investigorHome.htm' /> " img-url="<c:url value='/imagepane/staffing.htm' /> "> 
 					<a href="javascript:void(0)">Home</a></div>
 					 
-				<div  class="submenu_item no_image_nav" content-url="/form/register/viewStudySiteForm.htm" >
+				<div  class="submenu_item no_image_nav" content-url="<c:url value='/form/register/viewStudySiteForm.htm' /> " >
 						<a href="javascript:void(0)">Register Study Center</a></div>
 				
-				<div class="submenu_item image_nav" img-url="/imagepane/staffing.htm">
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/staffing.htm' /> ">
 					<a href="javascript:void(0)">Staffing</a></div>
-				<div class="submenu_item image_nav" content-url="/public/home/investigorHome.htm"> 
+				<div class="submenu_item image_nav" content-url="<c:url value='/public/home/investigorHome.htm' /> "> 
 					<a href="javascript:void(0)">Clinical Train</a></div>
 				<div  class="submenu_item image_nav">
 					<a href="javascript:void(0)">Patient Referrals</a></div>
 			</div>
 			<div id="main_nav_id_4" style="display:none">
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=OUTSOURCING_HOME" content-url="/public/home/outsourcingHome.htm"> 
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=OUTSOURCING_HOME' /> " content-url="<c:url value='/public/home/outsourcingHome.htm' /> "> 
 					<a href="javascript:void(0)">Home</a></div>
 			 </div>
 			<div id="main_nav_id_5" style="display:none">
-				<div class="submenu_item image_nav" img-url="/imagepane/home.htm?tab=TRAINING_HOME" content-url="/public/home/trainingHome.htm"> 
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=TRAINING_HOME' /> " content-url="<c:url value='/public/home/trainingHome.htm' /> "> 
 					<a href="javascript:void(0)">Home</a></div>
 			 </div>
 		</div>

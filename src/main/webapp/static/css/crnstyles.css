@@ -254,7 +254,7 @@ th,.table_heading {
 }
 
 #submenublock {
-	background-image: url('/static/images/bg_top.png');
+	background-image: url('../images/bg_top.png');
 	background-repeat: repeat-x;
 	border-bottom: 1px solid #E5E5E5;
 	height: 300px;
