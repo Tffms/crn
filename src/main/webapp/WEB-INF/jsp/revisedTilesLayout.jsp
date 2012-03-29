@@ -196,6 +196,15 @@ function loadContentPane(target){
 											});
 								
 							}	
+							if(contenturl.indexOf("report/viewAllForUser.htm") != -1){
+								require(["dojo/parser", 
+											"dojox/validate/us", "dojox/validate/web",
+											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+											function(parser){
+												submitEvent();
+											});
+							}
 						},
 						error: function() {
 							dom.byId("contentpane").innerHTML = "";
@@ -246,6 +255,59 @@ function submitEvent(){
 								      }
 								    }
 							xhr.post(xhrArgs);
+						});
+				query(".study_site_info_url").on("click", 
+						function(e){
+							var standby = new Standby({
+								target: "contentpane"
+							});
+							document.body.appendChild(standby.domNode);
+							standby.show();
+							console.log("invoking on click event for " + e.target);
+							contenturl =  domAttr.get(e.target, "content-url");
+							console.log("using : " + contenturl);
+							var xhrArgs = {
+									  url: contenturl,
+								      load: function(data){
+								    	  dojo.byId("contentpane").innerHTML = data;
+								    	  document.body.appendChild(standby.domNode);
+								    	  standby.hide();
+								    	  destroyWidgets();	
+								    	  parser.parse("contentpane");
+								    	  submitEvent();
+								      },
+								      error: function(error){
+								        dojo.byId("contentpane").innerHTML = "";
+								        document.body.appendChild(standby.domNode);
+								        standby.hide();
+								      }
+								    }
+							xhr.get(xhrArgs);
+						});
+				query("#studySiteListButton").on("click", 
+						function(e){
+							var standby = new Standby({
+								target: "contentpane"
+							});
+							document.body.appendChild(standby.domNode);
+							standby.show();
+							contenturl =  '<c:url value="/studysite/report/viewAllForUser.htm" />';
+							var xhrArgs = {
+									  url: contenturl,
+								      load: function(data){
+								    	  dojo.byId("contentpane").innerHTML = data;
+								    	  document.body.appendChild(standby.domNode);
+								    	  standby.hide();
+								    	  parser.parse("contentpane");
+								    	  submitEvent();
+								      },
+								      error: function(error){
+								        dojo.byId("contentpane").innerHTML = "";
+								        document.body.appendChild(standby.domNode);
+								        standby.hide();
+								      }
+								    }
+							xhr.get(xhrArgs);
 						});
 				query("#loginSubmitButton").on("click", 
 						function(e){
@@ -614,8 +676,8 @@ function getProperties(obj) {
 					<a href="javascript:void(0)">Staffing</a></div>
 				<div class="submenu_item image_nav" content-url="<c:url value='/public/home/investigorHome.htm' /> "> 
 					<a href="javascript:void(0)">Clinical Train</a></div>
-				<div  class="submenu_item image_nav">
-					<a href="javascript:void(0)">Patient Referrals</a></div>
+				<div  class="submenu_item image_nav" content-url="<c:url value='/studysite/report/viewAllForUser.htm' /> ">
+					<a href="javascript:void(0)">My Study Sites</a></div>
 			</div>
 			<div id="main_nav_id_4" style="display:none">
 				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=OUTSOURCING_HOME' /> " content-url="<c:url value='/public/home/outsourcingHome.htm' /> "> 

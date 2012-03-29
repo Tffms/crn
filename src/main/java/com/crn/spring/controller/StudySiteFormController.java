@@ -12,10 +12,13 @@ import java.util.Map;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.crn.spring.form.StudySiteForm;
 import com.crn.type.FacilityType;
+import com.crn.usermanagement.UserInfo;
 
 @Controller
 @RequestMapping("/form/register")
@@ -77,13 +81,25 @@ public class StudySiteFormController {
 		return new ModelAndView("studySiteFormSuccess");
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/confirmData.htm") 
 	public ModelAndView showConfirmationScreen(@ModelAttribute("studySite") StudySiteForm studySiteForm){
 		logger.info("site name is : "  + studySiteForm.getSiteName());
 		logger.info(studySiteForm.getCity());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserInfo user = (UserInfo)authentication.getPrincipal();
 		PersistenceManager manager = persistenceManagerFactory.getPersistenceManager();
 		logger.info(manager);
-		manager.makePersistent(studySiteForm);
+		Query query = manager.newQuery(UserInfo.class);
+		query.setFilter("userName == userNameParam");
+		query.declareParameters("String userNameParam");
+		UserInfo userEntity = ((List<UserInfo>) query.execute(user.getUserName())).get(0); 
+		logger.info("user key " + userEntity.getKey().getId());
+		studySiteForm.setUserInfoKey(userEntity.getKey()); 
+		
+		studySiteForm = manager.makePersistent(studySiteForm);
+		studySiteForm = manager.detachCopy(studySiteForm);
+		manager.close();
 		return new ModelAndView("redirect:/form/register/showSuccess.htm");
 	}
 	

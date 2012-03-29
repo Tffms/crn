@@ -90,5 +90,17 @@ public class UserInfo implements Serializable{
 	public void setAuthorities(List<String> authorities) {
 		this.authorities = authorities;
 	}
+	/**
+	 * @return the key
+	 */
+	public Key getKey() {
+		return key;
+	}
+	/**
+	 * @param key the key to set
+	 */
+	public void setKey(Key key) {
+		this.key = key;
+	}
 
 }

@@ -11,6 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 import com.crn.type.FacilityType;
 import com.crn.type.Investigator;
 import com.crn.type.IrbType;
+import com.crn.usermanagement.UserInfo;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
@@ -25,6 +26,8 @@ public class StudySiteForm implements Serializable{
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
 	
+	@Persistent
+	private Key userInfoKey;
 	@Persistent
 	private String siteName;
 	@Persistent
@@ -143,6 +146,19 @@ public class StudySiteForm implements Serializable{
 	}
 	public void setKey(Key key) {
 		this.key = key;
+	}
+
+	/**
+	 * @return the userInfoKey
+	 */
+	public Key getUserInfoKey() {
+		return userInfoKey;
+	}
+	/**
+	 * @param userInfoKey the userInfoKey to set
+	 */
+	public void setUserInfoKey(Key userInfoKey) {
+		this.userInfoKey = userInfoKey;
 	}
 
 }

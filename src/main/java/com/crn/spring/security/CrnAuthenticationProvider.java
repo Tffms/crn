@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
@@ -37,11 +38,13 @@ public class CrnAuthenticationProvider implements AuthenticationProvider {
 		System.out.println(userName);
 		System.out.println(password);
 		
-		
-		Query query = persistenceManagerFactory.getPersistenceManager().newQuery(UserInfo.class);
+		PersistenceManager manager = persistenceManagerFactory.getPersistenceManager();
+		Query query = manager.newQuery(UserInfo.class);
 		query.setFilter("userName == userNameParam");
 		query.declareParameters("String userNameParam");
 		List<UserInfo> userEntities = (List<UserInfo>) query.execute(userName);
+		userEntities = (List<UserInfo>) manager.detachCopyAll(userEntities); 
+		manager.close();
 		if(userEntities.size() > 0){
 			UserInfo userEntity = userEntities.get(0);
 			

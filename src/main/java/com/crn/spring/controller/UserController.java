@@ -47,7 +47,7 @@ public class UserController {
         user.setAuthorities(authorities);
         
         PersistenceManager manager = persistenceManagerFactory.getPersistenceManager();
-        Query query = persistenceManagerFactory.getPersistenceManager().newQuery(UserInfo.class);
+        Query query = manager.newQuery(UserInfo.class);
 		query.setFilter("userName == userNameParam");
 		query.declareParameters("String userNameParam");
 		List<UserInfo> userEntities = (List<UserInfo>) query.execute(user.getUserName());
@@ -55,8 +55,9 @@ public class UserController {
 			// user already exists
 			return "user name already exists .. ";
 		}
-        manager.makePersistent(user);
-        
+        user = manager.makePersistent(user);
+        user = manager.detachCopy(user);
+        manager.close();
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
 		Authentication authentication = authenticationManager.authenticate(authToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
