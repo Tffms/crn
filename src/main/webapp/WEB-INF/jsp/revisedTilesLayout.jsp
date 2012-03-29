@@ -600,6 +600,7 @@ require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "d
 		    }); 
 		    
 		    query("#login_url").on("click", function(e){
+		    	clickSubmenu(e.currentTarget);
 		    	loadContentPane(e.currentTarget);		    	
 		    });
 		    
@@ -654,13 +655,19 @@ function getProperties(obj) {
 <!-- <div id="loader">
 	<div id="loaderInner">Loading...</div>
 </div> -->
-	<div id="top_bar" style="height: 21px;text-align: right;" >
-		<sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
-                <a id="login_url" content-url="<c:url value="/public/home/login.htm"/>" href="javascript:void(0)">Login</a> 
-        </sec:authorize>
-        <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-               <a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
-        </sec:authorize>
+	<div id="top_bar" style="height: 21px;" >
+		
+		<ul style="margin-right:20px;" >
+			<sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+				<li><a id="login_url" content-url="<c:url value="/public/home/login.htm"/>" href="javascript:void(0)">Login</a> </li>
+			</sec:authorize>
+			<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
+				<li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
+				<li> <c:out value="Welcome ${SPRING_SECURITY_LAST_USERNAME}"></c:out> </li>
+			</sec:authorize>
+				
+		</ul>
+		
 	</div>
 	<div id="menubar" >
 		<div  class="menu_item"	id="main_nav_1" subnav-class = "main_nav_id_1">
