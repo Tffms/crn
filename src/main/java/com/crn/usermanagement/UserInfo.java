@@ -34,6 +34,8 @@ public class UserInfo implements Serializable{
 	@Persistent
 	private String email;
 	@Persistent
+	private Boolean enabled;
+	@Persistent
 	private List<String> authorities;
 	
 	public String getFirstName() {
@@ -101,6 +103,18 @@ public class UserInfo implements Serializable{
 	 */
 	public void setKey(Key key) {
 		this.key = key;
+	}
+	/**
+	 * @return the enabled
+	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

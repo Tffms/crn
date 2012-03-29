@@ -39,7 +39,9 @@ dependencies{
 			'org.springframework:spring-orm:3.1.1.RELEASE',
 			'org.springframework.security:spring-security-core:3.0.7.RELEASE',
 			'org.springframework.security:spring-security-web:3.0.7.RELEASE',
-			'org.springframework.security:spring-security-config:3.0.7.RELEASE'
+			'org.springframework.security:spring-security-config:3.0.7.RELEASE',
+			'org.springframework.security:spring-security-taglibs:3.0.7.RELEASE'
+            
             
             
             
@@ -63,6 +65,20 @@ task (explodeWar, dependsOn: 'crnwar') << {
 	ant.taskdef(name: "datanucleusenhancer", classpathref: "enhancer.classpath", classname: "org.datanucleus.enhancer.tools.EnhancerTask")		
 	ant.datanucleusenhancer(classpathref: "enhancer.classpath", failonerror: true, verbose: true){
 		ant.fileset(dir: "build/crnweb2war/WEB-INF/classes"){
+			ant.include(name: "**/*.class")
+		}
+	}
+}
+
+
+task (enhance) << {	
+	ant.path (id: "enhancer.classpath"){
+		ant.pathelement(location: "build/crnweb2war/WEB-INF/classes")
+		ant.pathelement(path: configurations.enhancer.asPath)
+	}
+	ant.taskdef(name: "datanucleusenhancer", classpathref: "enhancer.classpath", classname: "org.datanucleus.enhancer.tools.EnhancerTask")		
+	ant.datanucleusenhancer(classpathref: "enhancer.classpath", failonerror: true, verbose: true){
+		ant.fileset(dir: "bin"){
 			ant.include(name: "**/*.class")
 		}
 	}

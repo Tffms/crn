@@ -100,7 +100,7 @@ public class StudySiteFormController {
 		studySiteForm = manager.makePersistent(studySiteForm);
 		studySiteForm = manager.detachCopy(studySiteForm);
 		manager.close();
-		return new ModelAndView("redirect:/form/register/showSuccess.htm");
+		return new ModelAndView("studySiteFormSuccess");
 	}
 	
 	@RequestMapping(value = "/submitStudySiteForm.htm", method = RequestMethod.POST ) 

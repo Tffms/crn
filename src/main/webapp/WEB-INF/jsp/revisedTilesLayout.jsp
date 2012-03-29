@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -205,6 +206,26 @@ function loadContentPane(target){
 												submitEvent();
 											});
 							}
+							if(contenturl.indexOf("showAllUsers.htm") != -1){ 
+								require(["dojo/parser", 
+											"dojox/validate/us", "dojox/validate/web",
+											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+											function(parser){
+												submitEvent();
+											});
+							}
+							if(contenturl.indexOf("login.htm") != -1){ 
+								require(["dojo/parser", 
+											"dojox/validate/us", "dojox/validate/web",
+											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
+											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
+											function(parser){
+												parser.parse("loginForm"); 
+												submitEvent();
+												loadUserRegistrationpage();
+											});
+							}
 						},
 						error: function() {
 							dom.byId("contentpane").innerHTML = "";
@@ -326,12 +347,14 @@ function submitEvent(){
 								    	  if(data.indexOf("loginPageResponse") != -1){
 								    		  parser.parse("loginForm"); 
 								    		  loadUserRegistrationpage();
-								    	  } else {
+								    	  } else if(data.indexOf("StudySiteFormToken") != -1){
 								    		  console.log("parsing study center form"); 
 								    		  parser.parse("studyCenterForm"); 
 											  irbOption();
 											  addIARow();
-								    	  }				    	  
+								    	  }	else{
+								    		  window.location.reload()
+								    	  }		    	  
 								    	  submitEvent();
 								      },
 								      error: function(error){
@@ -574,6 +597,10 @@ require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "d
 		    query(".submenu_item").on("click", function(e){
 		    	clickSubmenu(e.currentTarget);
 		    	loadContentPane(e.currentTarget);		    	
+		    }); 
+		    
+		    query("#login_url").on("click", function(e){
+		    	loadContentPane(e.currentTarget);		    	
 		    });
 		    
 		    query("#registry_length").on("click", function(e){
@@ -627,7 +654,13 @@ function getProperties(obj) {
 <!-- <div id="loader">
 	<div id="loaderInner">Loading...</div>
 </div> -->
-	<div id="top_bar" style="height: 21px;">
+	<div id="top_bar" style="height: 21px;text-align: right;" >
+		<sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                <a id="login_url" content-url="<c:url value="/public/home/login.htm"/>" href="javascript:void(0)">Login</a> 
+        </sec:authorize>
+        <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
+               <a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
+        </sec:authorize>
 	</div>
 	<div id="menubar" >
 		<div  class="menu_item"	id="main_nav_1" subnav-class = "main_nav_id_1">
@@ -641,6 +674,11 @@ function getProperties(obj) {
 			<a href="javascript:void(0)">Outsourcing</a></div>
 		<div  class="menu_item" id="main_nav_5" subnav-class = "main_nav_id_5">
 			<a href="javascript:void(0)">Training</a></div>
+		
+		<sec:authorize ifAnyGranted="ROLE_ADMIN"> 
+			<div  class="menu_item" id="main_nav_6" subnav-class = "main_nav_id_6">
+				<a href="javascript:void(0)">Admin</a></div>
+		</sec:authorize>
 	</div>
 	<!-- http://www.developer.nokia.com/Community/Wiki/Simple_Web_Runtime_Design_Patterns_Using_Dojo#4._Expand.2FCollapse 
 	use above link to collapse submenublock -->
@@ -686,6 +724,10 @@ function getProperties(obj) {
 			<div id="main_nav_id_5" style="display:none">
 				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=TRAINING_HOME' /> " content-url="<c:url value='/public/home/trainingHome.htm' /> "> 
 					<a href="javascript:void(0)">Home</a></div>
+			 </div>
+			 <div id="main_nav_id_6" style="display:none">
+				<div class="submenu_item image_nav" content-url="<c:url value='/admin/user/showAllUsers.htm' /> "> 
+					<a href="javascript:void(0)">All Users</a></div>
 			 </div>
 		</div>
 		
