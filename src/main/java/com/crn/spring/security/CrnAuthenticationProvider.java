@@ -56,11 +56,14 @@ public class CrnAuthenticationProvider implements AuthenticationProvider {
 			if(userName.equalsIgnoreCase(userName) && !password.equalsIgnoreCase(userEntity.getPassword())){
 				throw new BadCredentialsException("password wrong");
 			}
-			
+			if(!userEntity.getEnabled()){
+				throw new BadCredentialsException("This User is Disabled");
+			}
 			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			for(String role : userEntity.getAuthorities()){
 				authorities.add(new GrantedAuthorityImpl(role));
 			}
+			
 			return new UsernamePasswordAuthenticationToken(userEntity, null, authorities); 
 		} else {
 			throw new BadCredentialsException("user not found");

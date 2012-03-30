@@ -1,5 +1,6 @@
 package com.crn.spring.controller;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.jdo.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,15 +35,25 @@ public class StudySiteReportController {
 	@RequestMapping("/viewAllForUser.htm") 
 	public ModelAndView viewReport(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserInfo user = (UserInfo)authentication.getPrincipal();
-		
-		PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();		
+		PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
 		Query query = persistenceManager.newQuery(StudySiteForm.class);
+		Collection<GrantedAuthority>  authorities = authentication.getAuthorities();
+		List<StudySiteForm> studySiteForms = null;
+		boolean isUserAdmin = false;
+		for(GrantedAuthority auth: authorities){
+			if(auth.getAuthority().equals("ROLE_ADMIN")){
+				isUserAdmin = true;
+			}
+		}
+		if(!isUserAdmin){ 
+			UserInfo user = (UserInfo)authentication.getPrincipal();
+			query.setFilter("userInfoKey == userNameParam");
+			query.declareParameters("String userNameParam");
+			studySiteForms = (List<StudySiteForm>) query.execute(user.getKey());
+		} else {
+			studySiteForms = (List<StudySiteForm>) query.execute();
+		}		
 		
-		query.setFilter("userInfoKey == userNameParam");
-		query.declareParameters("String userNameParam");
-		
-		List<StudySiteForm> studySiteForms = (List<StudySiteForm>) query.execute(user.getKey()); 
 		studySiteForms = (List<StudySiteForm>) persistenceManager.detachCopyAll(studySiteForms);
 		persistenceManager.close();
 		Map<String, Object> model = new HashMap<String, Object>();

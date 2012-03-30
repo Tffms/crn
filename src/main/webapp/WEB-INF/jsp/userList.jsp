@@ -19,7 +19,7 @@
 					<td><c:out value="${user.userName }"></c:out></td>
 					<td><c:out value="${user.firstName}"></c:out></td>
 					<td><c:out value="${user.lastName}"></c:out></td>
-					<td></td>
+					<td> <input class="disable_user" type="checkbox" <c:if test="${user.enabled}"> checked = 'checked'</c:if> userid="${user.key.id}"  endpoint='<c:url value="/admin/user/editStatus.htm" ></c:url>' ></input> </td>
 				</tr>
 			</c:forEach>
 		</tbody>

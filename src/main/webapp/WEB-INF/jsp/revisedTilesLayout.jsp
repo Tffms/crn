@@ -277,6 +277,37 @@ function submitEvent(){
 								    }
 							xhr.post(xhrArgs);
 						});
+				query(".disable_user").on("click", 
+						function(e){
+							var standby = new Standby({
+								target: "contentpane"
+							});
+							document.body.appendChild(standby.domNode);
+							standby.show();
+							contenturl =  domAttr.get(e.target, "endpoint");
+							userid =  domAttr.get(e.target, "userid");
+							value =  e.target.checked;
+							console.log("value checked : " + value);
+							var xhrArgs = {
+									  url: contenturl,
+									  content: {
+										  user_id: userid,
+									      status: value,
+									    },
+								      load: function(data){
+								    	  document.body.appendChild(standby.domNode);
+								    	  standby.hide();
+								    	  if(data.indexOf("success")){
+								    		  console.log("successfully changed status of user ");
+								    	  }
+								      },
+								      error: function(error){
+								        document.body.appendChild(standby.domNode);
+								        standby.hide();
+								      }
+								    }
+							xhr.get(xhrArgs);
+						});
 				query(".study_site_info_url").on("click", 
 						function(e){
 							var standby = new Standby({
@@ -404,7 +435,7 @@ function loadUserRegistrationpage(){
 }
 
 function handleUserRegistrationSubmit(){
-	require(["dojo", "dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/domReady!"], 
+	require(["dojo", "dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/NodeList-manipulate", "dojo/domReady!"], 
 			function(dojo, Standby, xhr, on, dom, domClass, parser, query, domAttr, construct) {
 		query("#userRegisterSubmitButton").on("click", 
 				function(e){
@@ -421,10 +452,16 @@ function handleUserRegistrationSubmit(){
 						    	  standby.hide();
 						    	  console.log("xhrget response data: " + data);	
 						    	  if(data == 'success'){
-						    		  console.log("destroying widgets.. ");
-						    		  destroyWidgets();
-						    		  clickSubmenu(dojo.byId("registerStudyCenterLink"));
-						    		  loadContentPane(dojo.byId("registerStudyCenterLink"));
+						    		  lastReq = query("#lastRequest").innerHTML();
+						    		  if(lastReq.indexOf('true') == -1){
+						    			  console.log("destroying widgets.. ");
+							    		  destroyWidgets();
+							    		  clickSubmenu(dojo.byId("registerStudyCenterLink"));
+							    		  loadContentPane(dojo.byId("registerStudyCenterLink"));
+						    		  } else{
+						    			  window.location.reload();
+						    		  }
+						    		  
 						    	  } else{
 						    		  dojo.byId("regFormMessage").innerHTML = data; 
 						    	  }
@@ -587,7 +624,7 @@ function addIARow(){
 }
 
 
-require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/domReady!"], 
+require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/NodeList-traverse", "dojo/NodeList-manipulate", "dojo/domReady!"], 
 		function(on, dom, domClass, parser, query, domAttr) {
 			clickmenu(dom.byId("main_nav_1")); 
 		    query(".menu_item").on("click", function(e){		        
@@ -601,7 +638,8 @@ require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "d
 		    
 		    query("#login_url").on("click", function(e){
 		    	clickSubmenu(e.currentTarget);
-		    	loadContentPane(e.currentTarget);		    	
+		    	loadContentPane(e.currentTarget);
+		    	query("#lastRequest").innerHTML('true');
 		    });
 		    
 		    query("#registry_length").on("click", function(e){
@@ -662,12 +700,12 @@ function getProperties(obj) {
 				<li><a id="login_url" content-url="<c:url value="/public/home/login.htm"/>" href="javascript:void(0)">Login</a> </li>
 			</sec:authorize>
 			<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-				<li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
-				<li> <c:out value="Welcome ${SPRING_SECURITY_LAST_USERNAME}"></c:out> </li>
+				<li style="color: #CCC;">
+					Welcome &nbsp; <c:out value="${sessionScope.sessionUserName}" />
+				 </li>
+				 <li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
 			</sec:authorize>
-				
 		</ul>
-		
 	</div>
 	<div id="menubar" >
 		<div  class="menu_item"	id="main_nav_1" subnav-class = "main_nav_id_1">
@@ -677,11 +715,6 @@ function getProperties(obj) {
 		<div class="menu_item" id="main_nav_3" subnav-class = "main_nav_id_3" >
 			<span><a href="javascript:void(0)">Investigator Services</a></span>
 		</div>
-		<div  class="menu_item" id="main_nav_4" subnav-class = "main_nav_id_4">
-			<a href="javascript:void(0)">Outsourcing</a></div>
-		<div  class="menu_item" id="main_nav_5" subnav-class = "main_nav_id_5">
-			<a href="javascript:void(0)">Training</a></div>
-		
 		<sec:authorize ifAnyGranted="ROLE_ADMIN"> 
 			<div  class="menu_item" id="main_nav_6" subnav-class = "main_nav_id_6">
 				<a href="javascript:void(0)">Admin</a></div>
@@ -689,6 +722,7 @@ function getProperties(obj) {
 	</div>
 	<!-- http://www.developer.nokia.com/Community/Wiki/Simple_Web_Runtime_Design_Patterns_Using_Dojo#4._Expand.2FCollapse 
 	use above link to collapse submenublock -->
+	
 	<div id="submenublock">
 		<div id="submenubar" >
 			
@@ -697,6 +731,10 @@ function getProperties(obj) {
 					<a href="javascript:void(0)" >About us</a></div>
 				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=FAQS' />" content-url="<c:url value=' /public/home/crnFaqs.htm' />" >
 					<a href="javascript:void(0)">FAQs</a></div>
+				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=TRAINING_HOME' /> " content-url="<c:url value='/public/home/trainingHome.htm' /> " >
+					<a href="javascript:void(0)">Outsourcing</a></div>
+				<div class="submenu_item image_nav"  img-url="<c:url value='/imagepane/home.htm?tab=TRAINING_HOME' /> " content-url="<c:url value='/public/home/trainingHome.htm' /> " >
+					<a href="javascript:void(0)">Training</a></div>
 			</div>
 			<div id="main_nav_id_2" style="display:none">
 				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=PHARMA_HOME' /> " content-url="<c:url value='/public/home/pharmaHome.htm' /> " >
@@ -724,17 +762,11 @@ function getProperties(obj) {
 				<div  class="submenu_item image_nav" content-url="<c:url value='/studysite/report/viewAllForUser.htm' /> ">
 					<a href="javascript:void(0)">My Study Sites</a></div>
 			</div>
-			<div id="main_nav_id_4" style="display:none">
-				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=OUTSOURCING_HOME' /> " content-url="<c:url value='/public/home/outsourcingHome.htm' /> "> 
-					<a href="javascript:void(0)">Home</a></div>
-			 </div>
-			<div id="main_nav_id_5" style="display:none">
-				<div class="submenu_item image_nav" img-url="<c:url value='/imagepane/home.htm?tab=TRAINING_HOME' /> " content-url="<c:url value='/public/home/trainingHome.htm' /> "> 
-					<a href="javascript:void(0)">Home</a></div>
-			 </div>
 			 <div id="main_nav_id_6" style="display:none">
 				<div class="submenu_item image_nav" content-url="<c:url value='/admin/user/showAllUsers.htm' /> "> 
 					<a href="javascript:void(0)">All Users</a></div>
+				<div  class="submenu_item image_nav" content-url="<c:url value='/studysite/report/viewAllForUser.htm' /> ">
+					<a href="javascript:void(0)">Study Sites</a></div>
 			 </div>
 		</div>
 		
@@ -756,5 +788,6 @@ function getProperties(obj) {
 			</ul>
 			
 	</div>
+	<p style="visibility: hidden;" id="lastRequest"></p> 
 </body>
 </html>

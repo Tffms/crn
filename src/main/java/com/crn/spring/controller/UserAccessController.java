@@ -39,7 +39,11 @@ public class UserAccessController {
 	}
 	
 	@RequestMapping("/editStatus.htm") 
-	public @ResponseBody String changeUserStatus(@RequestParam Long userId, @RequestParam Boolean status){
+	public @ResponseBody String changeUserStatus(@RequestParam("user_id") Long userId, @RequestParam("status") Boolean status){
+		PersistenceManager persistenceManager = persistenceManagerFactory.getPersistenceManager();
+		UserInfo userEntity = persistenceManager.getObjectById(UserInfo.class, userId);
+		userEntity.setEnabled(status);
+		persistenceManager.close();
 		logger.info("Status changed.. ");
 		return "success";
 	}
