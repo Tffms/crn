@@ -110,6 +110,14 @@ public class UserInfo implements Serializable{
 	public Boolean getEnabled() {
 		return enabled;
 	}
+	
+	/**
+	 * @return the enabled
+	 */
+	public Boolean isEnabled() {
+		return enabled;
+	}
+	
 	/**
 	 * @param enabled the enabled to set
 	 */

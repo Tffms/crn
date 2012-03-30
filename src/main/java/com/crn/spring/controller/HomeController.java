@@ -1,5 +1,10 @@
 package com.crn.spring.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,8 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.crn.usermanagement.UserModel;
 import com.crn.usermanagement.UserInfo;
 
 @Controller
@@ -108,6 +115,21 @@ public class HomeController {
 	@RequestMapping("login.htm") 
 	public ModelAndView login(){
 		return new ModelAndView("login");
+	}
+	
+	@RequestMapping("jsonTest.htm") 
+	public @ResponseBody Map<String, List<UserModel>>  jsonTest(){
+		List<UserModel> users = new ArrayList<UserModel>();
+		
+		UserModel p = new UserModel();
+		p.setEnabled(Boolean.TRUE);
+		p.setUserName("test user");
+		users.add(p);
+		users.add(p);
+		users.add(p);
+		Map<String , List<UserModel>> result = new HashMap<String, List<UserModel>>();
+		result.put("items", users);
+		return result;
 	}
 	
 }

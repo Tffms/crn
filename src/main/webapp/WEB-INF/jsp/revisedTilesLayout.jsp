@@ -10,8 +10,8 @@
 <title>Insert title here</title>
 <title><tiles:insertAttribute name="title" />
 </title>
-<link rel="stylesheet"
-	href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dijit/themes/claro/claro.css">
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dijit/themes/claro/claro.css">
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojox/grid/resources/claroGrid.css">
 <script
 	src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
 	data-dojo-config="isDebug: true, async: true">
@@ -211,7 +211,8 @@ function loadContentPane(target){
 											"dojox/validate/us", "dojox/validate/web",
 											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
 											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
-											function(parser){
+											function(parser){												
+												loadDataGrid('<c:url value="/admin/user/showAllUsersData.htm" />', 'userGrid');
 												submitEvent();
 											});
 							}
@@ -246,6 +247,47 @@ function destroyWidgets(){
 			widget.destroy();
 		});
 		//console.log(registry.length);
+	});
+}
+
+function loadDataGrid(storeUrl, gridId){
+	var grid, dataStore, store;
+	require([
+		"dojox/grid/DataGrid",
+		"dojo/store/Memory",
+		"dojo/data/ObjectStore",
+		"dojo/_base/xhr",
+		"dojo/domReady!"
+	], function(DataGrid, Memory, ObjectStore, xhr){
+		xhr.get({
+			url: storeUrl,
+			headers: {
+			      "Content-Type": "text/html"
+			    },
+			handleAs: "json"
+		}).then(function(data){
+			console.log(data);
+			store = new Memory({ data: data.items });
+			dataStore = new ObjectStore({ objectStore: store });
+			grid = new DataGrid({
+				store: dataStore,
+				query: { id: "*" },
+				structure: [
+					{
+						defaultCell: { width: "95px" },
+						noscroll: true,
+						cells: [
+							{ name: "First Name", field: "firstName" },
+							{ name: "Last Name", field: "lastName" },
+							{ name: "User name", field: "userName"},
+							{ name: "Enabled", field: "enabled", formatter: renderCheckbox, width: "70px"}
+						]
+					}
+				]
+			}, gridId);
+			// since we created this grid programmatically, call startup to render it
+			grid.startup();
+		});
 	});
 }
 
@@ -639,6 +681,7 @@ require(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "d
 		    query("#login_url").on("click", function(e){
 		    	clickSubmenu(e.currentTarget);
 		    	loadContentPane(e.currentTarget);
+		    	domClass.remove(target, "menu_selected");
 		    	query("#lastRequest").innerHTML('true');
 		    });
 		    
@@ -686,6 +729,17 @@ function getProperties(obj) {
 
     return props;
 }
+
+function renderCheckbox(data, rowIndex){
+	console.log(data);
+	endpoint = '<c:url value="/admin/user/editStatus.htm" ></c:url>';
+	if(data == true){
+		return "<input class='disable_user' endpoint='"+ endpoint + "' type='checkbox' checked  />";	
+	} else {
+		return "<input class='disable_user' endpoint='"+ endpoint + "'  type='checkbox'  />";
+	}
+	
+};
 	
 </script>
 </head>

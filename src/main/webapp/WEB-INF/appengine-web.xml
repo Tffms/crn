@@ -19,6 +19,7 @@
 		<include path="/static/images/home_pic5.png"></include>
 		<include path="/static/images/home_pic6.png"></include>
 		<include path="/static/images/crn_cycle.png"></include>
+		<include path="/static/sample.json"></include> 
 	</static-files>
 	
 	<sessions-enabled>true</sessions-enabled>

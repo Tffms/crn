@@ -456,4 +456,7 @@ th,.table_heading {
 
 #top_bar ul li {
 	display: inline;
+	border-right: 1px solid #2B2D39;
+	border-left: 1px solid #2B2D39;
+	border-collapse: collapse;
 }
