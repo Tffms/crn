@@ -132,4 +132,9 @@ public class HomeController {
 		return result;
 	}
 	
+	@RequestMapping("crnTopBar.htm") 
+	public ModelAndView renderTopBar(){
+		return new ModelAndView("crnTopbar");
+	}
+	
 }

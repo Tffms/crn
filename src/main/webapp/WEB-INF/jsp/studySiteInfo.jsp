@@ -15,42 +15,42 @@
 					<table class="site_form_table" id="site_form_table1">
 						<thead>
 							<tr>
-								<th colspan="2">Contact Information</th>
+								<th colspan="2"><h4>Contact Information</h4></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>Full Site Name:</td>
+								<td><h4>Full Site Name:</h4></td>
 								<td><c:out value="${studySite.siteName}"></c:out></td>
 							</tr>
 
 							<tr>
-								<td>Address Line 1:</td>
+								<td><h4>Address Line 1:</h4></td>
 								<td><c:out value="${studySite.addressLine1}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Address Line 2:</td>
+								<td><h4>Address Line 2:</h4></td>
 								<td><c:out value="${studySite.addressLine2}"></c:out>
 								</td>
 								</td>
 							</tr>
 							<tr>
-								<td>City:</td>
+								<td><h4>City:</h4></td>
 								<td><c:out value="${studySite.city}"></c:out></td>
 							</tr>
 							<tr>
-								<td>State:</td>
+								<td><h4>State:</h4></td>
 								<td><c:out value="${studySite.state}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Zip:</td>
+								<td><h4>Zip:</h4></td>
 								<td><c:out value="${studySite.zip}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Site IRB :</td>
+								<td><h4>Site IRB :</h4></td>
 								<td><c:choose>
 										<c:when test="${studySite.irbType.typeId eq 1}">
 										Central
@@ -72,27 +72,27 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>Contact Phone :</td>
+								<td><h4>Contact Phone :</h4></td>
 								<td><c:out value="${studySite.phone}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Fax:</td>
+								<td><h4>Fax:</h4></td>
 								<td><c:out value="${studySite.fax}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Email Address:</td>
+								<td><h4>Email Address:</h4></td>
 								<td><c:out value="${studySite.email}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Website:</td>
+								<td><h4>Website:</h4></td>
 								<td><c:out value="${studySite.website}"></c:out>
 								</td>
 							</tr>
 							<tr>
-								<td>Facility Type:</td>
+								<td><h4>Facility Type:</h4></td>
 								<td><c:choose>
 										<c:when test="${studySite.facilityType.typeId eq 0}">
 										Research Center
@@ -112,15 +112,15 @@
 					<table class="site_form_table" id="iaTable">
 						<thead>
 							<tr>
-								<th colspan="2">Investigators Associated</th>
+								<th colspan="2"><h4>Investigators Associated</h4></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>Name</td>
-								<td>PI/ Sub-I</td>
-								<td>Experience</td>
-								<td>Area/Speciality</td>
+								<td><h4>Name</h4></td>
+								<td><h4>PI/ Sub-I</h4></td>
+								<td><h4>Experience</h4></td>
+								<td><h4>Area/Speciality</h4></td>
 							</tr>
 							<c:forEach var="inv" items="${studySite.investigators}">
 								<tr class="iaclass">
@@ -149,3 +149,9 @@
 		</table>
 	</div>
 </div>
+<style type="text/css">
+h4{
+	margin: inherit;
+}
+
+</style>

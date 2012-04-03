@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Clinical Research Network</title>
 <title><tiles:insertAttribute name="title" />
 </title>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dijit/themes/claro/claro.css">
@@ -212,7 +212,7 @@ function loadContentPane(target){
 											"dijit/form/CheckBox", "dijit/form/Textarea", "dijit/form/Select", "dijit/form/TextBox", "dijit/form/ValidationTextBox", "dijit/form/DateTextBox", "dijit/form/TimeTextBox", "dijit/form/Button", "dijit/form/RadioButton", "dijit/form/Form", "dijit/form/DateTextBox",
 											"dojox/form/BusyButton", "dojox/form/CheckedMultiSelect",  "dojo/domReady!"], 
 											function(parser){												
-												loadDataGrid('<c:url value="/admin/user/showAllUsersData.htm" />', 'userGrid');
+												//loadDataGrid('<c:url value="/admin/user/showAllUsersData.htm" />', 'userGrid');
 												submitEvent();
 											});
 							}
@@ -425,6 +425,7 @@ function submitEvent(){
 								    		  parser.parse("studyCenterForm"); 
 											  irbOption();
 											  addIARow();
+											  reloadTopBar();
 								    	  }	else{
 								    		  window.location.reload()
 								    	  }		    	  
@@ -476,6 +477,21 @@ function loadUserRegistrationpage(){
 	});	
 }
 
+function reloadTopBar(){
+	require(["dojo", "dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/NodeList-manipulate", "dojo/domReady!"], 
+			function(dojo, Standby, xhr, on, dom, domClass, parser, query, domAttr, construct) {
+		xhr.get({
+			url: '<c:url value = "/public/home/crnTopBar.htm" />',
+			load: function(newContent, ioargs) {
+				dom.byId("top_bar").innerHTML = newContent;
+			},
+			error: function(ioargs) {
+				dom.byId("top_bar").innerHTML = "error occured";
+			}
+		});
+	});
+}
+
 function handleUserRegistrationSubmit(){
 	require(["dojo", "dojox/widget/Standby", "dojo/_base/xhr", "dojo/on", "dojo/dom", "dojo/dom-class", "dojo/parser","dojo/query", "dojo/dom-attr", "dojo/dom-construct", "dojo/NodeList-traverse", "dojo/NodeList-manipulate", "dojo/domReady!"], 
 			function(dojo, Standby, xhr, on, dom, domClass, parser, query, domAttr, construct) {
@@ -500,6 +516,7 @@ function handleUserRegistrationSubmit(){
 							    		  destroyWidgets();
 							    		  clickSubmenu(dojo.byId("registerStudyCenterLink"));
 							    		  loadContentPane(dojo.byId("registerStudyCenterLink"));
+							    		  reloadTopBar();
 						    		  } else{
 						    			  window.location.reload();
 						    		  }
@@ -747,19 +764,8 @@ function renderCheckbox(data, rowIndex){
 <!-- <div id="loader">
 	<div id="loaderInner">Loading...</div>
 </div> -->
-	<div id="top_bar" style="height: 21px;" >
-		
-		<ul style="margin-right:20px;" >
-			<sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
-				<li><a id="login_url" content-url="<c:url value="/public/home/login.htm"/>" href="javascript:void(0)">Login</a> </li>
-			</sec:authorize>
-			<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-				<li style="color: #CCC;">
-					Welcome &nbsp; <c:out value="${sessionScope.sessionUserName}" />
-				 </li>
-				 <li><a href="<c:url value="/j_spring_security_logout"/>">Logout</a></li>
-			</sec:authorize>
-		</ul>
+	<div id="top_bar" style="height: 21px;" >		
+		<tiles:insertAttribute name="topbar" />
 	</div>
 	<div id="menubar" >
 		<div  class="menu_item"	id="main_nav_1" subnav-class = "main_nav_id_1">

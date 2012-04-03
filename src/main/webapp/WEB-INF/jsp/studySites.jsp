@@ -5,7 +5,7 @@
 
 <div class="body_content">
 
-	<table>
+	<table id="studySitesTable">
 		<thead>
 			<tr>
 				<th>Site Name</th>
@@ -29,3 +29,31 @@
 		</tbody>
 	</table>
 </div>
+
+
+<style type="text/css">
+#studySitesTable {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: white;
+	width: 480px;
+	border-collapse: collapse;
+	text-align: left;
+	margin: 20px;
+}
+#studySitesTable th{
+	font-size: 14px;
+	font-weight: normal;
+	color: #039;
+	border-bottom: 2px solid #6678B1;
+	padding: 10px 8px;
+}
+
+#studySitesTable td{
+	color: #669;
+	padding: 9px 8px 0;
+}
+
+#studySitesTable tbody tr:hover td{color:#009;}
+
+</style>

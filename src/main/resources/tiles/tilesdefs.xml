@@ -35,6 +35,7 @@
     
     <definition name="revised.crn" template="/WEB-INF/jsp/revisedTilesLayout.jsp">
     	<put-attribute name="title" value="Clinical Research Networking" />
+    	<put-attribute name="topbar" value="/WEB-INF/jsp/crnTopbar.jsp"></put-attribute>
     </definition>
  
 </tiles-definitions>
