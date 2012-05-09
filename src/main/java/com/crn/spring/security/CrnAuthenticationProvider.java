@@ -29,6 +29,7 @@ public class CrnAuthenticationProvider implements AuthenticationProvider {
 	@Qualifier("persistenceManagerFactory") 
 	PersistenceManagerFactory persistenceManagerFactory;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
@@ -44,16 +45,10 @@ public class CrnAuthenticationProvider implements AuthenticationProvider {
 		List<UserInfo> userEntities = (List<UserInfo>) query.execute(userName);
 		userEntities = (List<UserInfo>) manager.detachCopyAll(userEntities); 
 		manager.close();
-		if(userEntities.size() == 0 && userName.equalsIgnoreCase("admin") && password.equalsIgnoreCase("secure@12")){
-			/*UserInfo userEntity = new UserInfo();
-			userEntity.setUserName("admin");
-			userEntity.setPassword("secure@12");
-			userEntity.set*/
-		}
 		if(userEntities.size() > 0){
 			UserInfo userEntity = userEntities.get(0);
 			
-			if(userName.equalsIgnoreCase(userName) && !password.equalsIgnoreCase(userEntity.getPassword())){
+			if(userName.equalsIgnoreCase(userEntity.getUserName()) && !password.equalsIgnoreCase(userEntity.getPassword())){
 				throw new BadCredentialsException("password wrong");
 			}
 			if(!userEntity.getEnabled()){

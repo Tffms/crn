@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -79,5 +81,11 @@ public class UserController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("newUser", user);
 		return new ModelAndView("registrationForm", model);
+	}
+	
+	public static void main(String... args){
+		ApplicationContext ctx1 = new ClassPathXmlApplicationContext(""); 
+		ApplicationContext ctx2 = (ApplicationContext) ctx1.getBean("ear.context");
+		System.out.println(" application context found... " + ctx2);
 	}
 }
